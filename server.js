@@ -1,3 +1,4 @@
+/* global process */
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -54,7 +55,7 @@ const server = http.createServer((req, res) => {
   }
 
   const rawUrl = (req.url || '/').split('?')[0];
-  let decodedPath = '/';
+  let decodedPath;
   try {
     decodedPath = decodeURIComponent(rawUrl);
   } catch {
