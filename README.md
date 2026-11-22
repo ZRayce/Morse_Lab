@@ -4,11 +4,13 @@
   <p><strong>Continuous-Wave (CW) Telegraph Manual, Koch Trainer &amp; Signed Operator Logbook</strong></p>
 
   <p>
+    <a href="https://morselab-station.vercel.app">
+      <img src="https://img.shields.io/badge/LIVE_STATION-MORSELAB--STATION.VERCEL.APP-1D4ED8?style=flat-square&labelColor=141413" alt="Live MorseLab Station" />
+    </a>
     <img src="https://img.shields.io/badge/ITU--R-M.1677--1-141413?style=flat-square&labelColor=EAE8E1" alt="ITU-R M.1677-1 Standard" />
-    <img src="https://img.shields.io/badge/TIMING-PARIS_STANDARD-1D4ED8?style=flat-square&labelColor=141413" alt="PARIS Timing Standard" />
+    <img src="https://img.shields.io/badge/TIMING-PARIS_STANDARD-141413?style=flat-square&labelColor=EAE8E1" alt="PARIS Timing Standard" />
     <img src="https://img.shields.io/badge/AUDIO-WEB_AUDIO_API-15803D?style=flat-square&labelColor=141413" alt="Web Audio API" />
     <img src="https://img.shields.io/badge/LOGBOOK-HMAC--SHA256-141413?style=flat-square&labelColor=EAE8E1" alt="HMAC-SHA256 Logbook" />
-    <img src="https://img.shields.io/badge/STACK-REACT_%2B_VITE_%2B_TAILWIND-141413?style=flat-square&labelColor=EAE8E1" alt="React Vite Tailwind" />
   </p>
 </div>
 
@@ -18,7 +20,7 @@
 
 **MorseLab** is a precision, browser-based Continuous-Wave (CW) Morse code transceiver, spaced-repetition trainer, and cryptographically signed practice logbook modeled after archival Swiss technical manuals and classic Braun test instruments.
 
-Instead of gamified clutter or bloated third-party libraries, MorseLab synthesizes pure sine-wave audio sidetones directly in the browser using the Web Audio API with 5ms exponential gain envelopes—eliminating acoustic clicks while maintaining exact **PARIS** (`1200 / WPM`) and **Farnsworth** timing intervals.
+Instead of gamified clutter or bloated third-party libraries, MorseLab synthesizes pure sine-wave audio sidetones directly in the browser using the Web Audio API with 5ms exponential gain envelopes—eliminating acoustic clicks while maintaining exact **PARIS** (`1200 / WPM`) and **Farnsworth** timing intervals. Everything runs locally in the browser with zero external tracking or backend dependencies.
 
 ---
 
@@ -32,7 +34,7 @@ Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, clu
 * **Amateur Radio (Ham) & Emergency Communicators:** Operators preparing for CW band contacts, field day operations, or backup off-grid communication drills where clean Farnsworth spacing and straight-key cadence matter.
 * **Military & Tactical Signal Trainees:** Service members, cadets, and signal specialists looking for a lightweight, zero-tracking, self-hostable practice terminal for ear copy, optical signal lamp flashing, and distress callsign drills.
 
-*(Note: MorseLab is an educational simulator and training utility—not certified maritime, aviation, or military distress hardware.)*
+> *Educational & Training Notice:* MorseLab is a simulation and practice utility—not certified maritime, aviation, or military distress equipment.
 
 ---
 
@@ -48,6 +50,16 @@ Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, clu
 
 ---
 
+## Station Preview
+
+| Bidirectional Translator | Koch Operator Training | Operator Logbook & Matrix |
+| :---: | :---: | :---: |
+| <img src="./Screenshot%202026-11-23%20072751.png" alt="MorseLab Bidirectional Translator" width="260" /> | <img src="./Screenshot%202026-11-23%20072740.png" alt="MorseLab Koch Operator Training" width="260" /> | <img src="./Screenshot%202026-11-23%20072729.png" alt="MorseLab Operator Logbook & Matrix" width="260" /> |
+
+*(Note: If you move those screenshots into a `public/shots/` folder later, update the paths above to `./public/shots/...`.)*
+
+---
+
 ## Local Development & Production Server
 
 ### Run in Development Mode
@@ -55,13 +67,20 @@ Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, clu
 npm install
 npm run dev
 ```
+Build & Run Production Server
+```Bash
+npm run build
+npm start
+```
+server.js serves the compiled dist/ bundle with path-traversal protection, SPA routing, Content Security Policy headers, and optional MAINTENANCE_MODE=true support.
 
----
+vercel.json mirrors the security headers and SPA fallback configuration for edge hosting on Vercel.
 
-### Author
-Rayce Manuel E. Fillon
+Author
+Name: Rayce Manuel E. Fillon
+
 Email: zerorayce@gmail.com
-LinkedIn: linkedin.com/in/raycefillon
-GitHub: github.com/ZRayce/morselab
 
----
+LinkedIn: linkedin.com/in/raycefillon
+
+GitHub: github.com/ZRayce/morselab
