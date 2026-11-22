@@ -20,7 +20,7 @@
 
 **MorseLab** is a precision, browser-based Continuous-Wave (CW) Morse code transceiver, spaced-repetition trainer, and cryptographically signed practice logbook modeled after archival Swiss technical manuals and classic Braun test instruments.
 
-Instead of gamified clutter or bloated third-party libraries, MorseLab synthesizes pure sine-wave audio sidetones directly in the browser using the Web Audio API with 5ms exponential gain envelopes—eliminating acoustic clicks while maintaining exact **PARIS** (`1200 / WPM`) and **Farnsworth** timing intervals. Everything runs locally in the browser with zero external tracking or backend dependencies.
+Instead of gamified clutter or bloated third-party libraries, MorseLab synthesizes pure sine-wave audio sidetones directly in the browser using the Web Audio API with 5ms exponential gain envelopes, eliminating acoustic clicks while maintaining exact **PARIS** (`1200 / WPM`) and **Farnsworth** timing intervals. Everything runs locally in the browser with zero external tracking or backend dependencies.
 
 ---
 
@@ -30,7 +30,7 @@ MorseLab started from my personal interest in learning Morse code and wanting a 
 
 Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, cluttered screens, or mandatory cloud accounts. I wanted a distraction-free station that serves:
 
-* **Everyday Learners & Hobbyists:** Anyone curious about International Morse code who wants to build real acoustic reflex recognition—rather than slowly counting dots and dashes—through structured Koch-method drills and progressive straight-key stages.
+* **Everyday Learners & Hobbyists:** Anyone curious about International Morse code who wants to build real acoustic reflex recognition—rather than slowly counting dots and dashes through structured Koch-method drills and progressive straight-key stages.
 * **Amateur Radio (Ham) & Emergency Communicators:** Operators preparing for CW band contacts, field day operations, or backup off-grid communication drills where clean Farnsworth spacing and straight-key cadence matter.
 * **Military & Tactical Signal Trainees:** Service members, cadets, and signal specialists looking for a lightweight, zero-tracking, self-hostable practice terminal for ear copy, optical signal lamp flashing, and distress callsign drills.
 
