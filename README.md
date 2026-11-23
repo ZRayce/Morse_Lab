@@ -26,7 +26,7 @@ Instead of gamified clutter or bloated third-party audio libraries, MorseLab syn
 
 ---
 
-## Why I Built This
+## Why I Built This? 
 
 MorseLab started from my personal interest in learning Morse code and wanting a tool that treats telegraphy like a real instrument rather than a casual mobile game.
 
