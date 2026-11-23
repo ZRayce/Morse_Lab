@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Tactile & responsive button behavior across desktop and mobile */
+button {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 80ms ease, background-color 120ms ease, color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+button:not(:disabled):hover {
+  box-shadow: 2px 2px 0px #141413;
+  transform: translate(-1px, -1px);
+}
+
+button:not(:disabled):active {
+  transform: translate(1px, 1px) scale(0.98);
+  box-shadow: 0px 0px 0px #141413;
+}
+
+button:focus-visible {
+  outline: 2px solid #1D4ED8;
+  outline-offset: 2px;
+}

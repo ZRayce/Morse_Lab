@@ -167,6 +167,12 @@ const NOTICE_ACK_KEY = 'morselab_notice_ack_v2';
 const INTEGRITY_SALT = 'MORSELAB-CW-ARCHIVAL-INTEGRITY-2026-RMF';
 const MIN_HUMAN_REACTION_MS = 90;
 
+const TACTILE_BTN =
+  'transition-all duration-100 active:translate-y-[1px] active:scale-[0.98] select-none touch-manipulation cursor-pointer';
+
+const HIGHLIGHTED_FIELD_LABEL =
+  "inline-block font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#141413] bg-[#EAE8E1] border border-[#141413] px-2.5 py-1";
+
 // ============================================================================
 // 2. SECURITY, SANITIZATION & CRYPTOGRAPHIC STORAGE ENGINE
 // ============================================================================
@@ -739,7 +745,7 @@ function CompletionCard({
 }) {
   return (
     <div className="bg-[#FAF9F6] border border-[#141413] border-t-4 border-t-[#15803D] p-6 sm:p-8">
-      <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.16em] text-[#15803D] font-semibold">
+      <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.16em] text-[#15803D] font-bold">
         {promotedChar ? 'PROMOTION UNLOCKED' : 'TRANSMISSION COMPLETE'}
       </div>
       <h3 className="font-['Newsreader'] text-2xl sm:text-3xl font-semibold text-[#141413] mt-1">
@@ -752,14 +758,14 @@ function CompletionCard({
       {promotedChar && (
         <div className="mt-4 bg-[#EAE8E1] border border-[#141413] px-4 py-3 flex items-center justify-between gap-3">
           <div>
-            <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.12em] text-[#57564F]">
+            <div className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.12em] text-[#57564F]">
               NEW KOCH CHARACTER ADDED TO MATRIX
             </div>
             <div className="font-['IBM_Plex_Mono'] text-lg sm:text-xl font-bold tracking-[0.2em] text-[#141413] mt-0.5">
               {promotedChar} · {formatMorseDisplay(MORSE_MAP[promotedChar] || '')}
             </div>
           </div>
-          <span className="font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] text-[#15803D] font-semibold border border-[#15803D] px-2.5 py-1 bg-[#FAF9F6]">
+          <span className="font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] text-[#15803D] font-bold border border-[#15803D] px-2.5 py-1 bg-[#FAF9F6]">
             UNLOCKED
           </span>
         </div>
@@ -772,10 +778,10 @@ function CompletionCard({
               key={m.label}
               className="bg-[#F4F3EE] border border-[#141413]/25 px-3.5 py-3"
             >
-              <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F]">
+              <div className="font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.12em] text-[#57564F]">
                 {m.label}
               </div>
-              <div className="font-['IBM_Plex_Mono'] text-lg font-semibold text-[#141413] tabular-nums mt-0.5">
+              <div className="font-['IBM_Plex_Mono'] text-lg font-bold text-[#141413] tabular-nums mt-0.5">
                 {m.value}
               </div>
             </div>
@@ -787,7 +793,7 @@ function CompletionCard({
         <button
           type="button"
           onClick={onPrimary}
-          className="min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+          className={`min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
         >
           {primaryLabel}
         </button>
@@ -795,7 +801,7 @@ function CompletionCard({
           <button
             type="button"
             onClick={onSecondary}
-            className="min-h-[44px] px-5 py-2.5 bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+            className={`min-h-[44px] px-5 py-2.5 bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
           >
             {secondaryLabel}
           </button>
@@ -912,7 +918,7 @@ function StationBootScreen({ onComplete, audioEngine }) {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="font-['IBM_Plex_Mono'] text-xs tabular-nums font-semibold text-[#141413]">
+            <span className="font-['IBM_Plex_Mono'] text-xs tabular-nums font-bold text-[#141413]">
               {String(progress).padStart(3, '0')}%
             </span>
             <span
@@ -931,11 +937,11 @@ function StationBootScreen({ onComplete, audioEngine }) {
         {/* 01. Vernier Frequency Zero-Beat Scale */}
         <div className="px-5 sm:px-7 py-6 border-b border-[#141413] bg-[#F4F3EE]">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-3.5">
-            <span className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.14em] text-[#57564F]">
+            <span className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.14em] text-[#57564F]">
               CARRIER ZERO-BEAT ALIGNMENT
             </span>
             <span
-              className={`font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.12em] font-semibold tabular-nums ${
+              className={`font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.12em] font-bold tabular-nums ${
                 isLocked ? 'text-[#15803D]' : 'text-[#1D4ED8]'
               }`}
             >
@@ -982,7 +988,7 @@ function StationBootScreen({ onComplete, audioEngine }) {
             <div className="flex items-center justify-between mt-2 font-['IBM_Plex_Mono'] text-[10px] tabular-nums text-[#57564F]">
               <span>600</span>
               <span>640</span>
-              <span className="font-semibold text-[#141413]">680 HZ</span>
+              <span className="font-bold text-[#141413]">680 HZ</span>
               <span>720</span>
               <span>760</span>
             </div>
@@ -992,10 +998,10 @@ function StationBootScreen({ onComplete, audioEngine }) {
         {/* 02. Perforated Paper-Tape WELCOME Greeting */}
         <div className="px-5 sm:px-7 py-6 border-b border-[#141413] bg-[#EAE8E1]">
           <div className="flex items-center justify-between mb-3">
-            <span className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.14em] text-[#57564F]">
+            <span className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.14em] text-[#57564F]">
               STATION GREETING TAPE
             </span>
-            <span className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F]">
+            <span className="font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.12em] text-[#57564F]">
               {isLocked ? 'READY' : 'KEYING'}
             </span>
           </div>
@@ -1046,14 +1052,14 @@ function StationBootScreen({ onComplete, audioEngine }) {
             <button
               type="button"
               onClick={() => finishBoot(false)}
-              className="flex-1 sm:flex-none min-h-[44px] px-4 py-2 border border-[#141413] bg-[#FAF9F6] hover:bg-[#EAE8E1] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] text-[#141413] transition-colors cursor-pointer"
+              className={`flex-1 sm:flex-none min-h-[44px] px-4 py-2 border border-[#141413] bg-[#FAF9F6] hover:bg-[#EAE8E1] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#141413] ${TACTILE_BTN}`}
             >
               Bypass
             </button>
             <button
               type="button"
               onClick={() => finishBoot(true)}
-              className="flex-1 sm:flex-none min-h-[44px] px-4 py-2 border border-[#141413] bg-[#141413] hover:bg-[#1D4ED8] hover:border-[#1D4ED8] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] text-[#FAF9F6] transition-colors cursor-pointer"
+              className={`flex-1 sm:flex-none min-h-[44px] px-4 py-2 border border-[#141413] bg-[#141413] hover:bg-[#1D4ED8] hover:border-[#1D4ED8] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#FAF9F6] ${TACTILE_BTN}`}
             >
               Engage &amp; Key Sidetone
             </button>
@@ -1110,7 +1116,7 @@ function SystemFaultView({
               MORSELAB
             </span>
           </div>
-          <span className="font-['IBM_Plex_Mono'] text-[11px] font-semibold uppercase tracking-[0.12em] text-[#B91C1C]">
+          <span className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.12em] text-[#B91C1C]">
             {statusTag}
           </span>
         </div>
@@ -1129,7 +1135,7 @@ function SystemFaultView({
           <button
             type="button"
             onClick={handleAuditionBeacon}
-            className="min-h-[36px] px-3 py-1 bg-[#FAF9F6] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.12em] transition-colors cursor-pointer"
+            className={`min-h-[36px] px-3 py-1 bg-[#FAF9F6] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
           >
             Audition Beacon
           </button>
@@ -1145,7 +1151,7 @@ function SystemFaultView({
           <button
             type="button"
             onClick={onRetry}
-            className="min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+            className={`min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
           >
             {isOffline ? 'Retry Connection' : 'Re-Initialize Station'}
           </button>
@@ -1153,7 +1159,7 @@ function SystemFaultView({
             <button
               type="button"
               onClick={onResetStorage}
-              className="min-h-[44px] px-4 py-2.5 bg-[#FAF9F6] hover:bg-[#B91C1C] hover:text-[#FAF9F6] hover:border-[#B91C1C] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+              className={`min-h-[44px] px-4 py-2.5 bg-[#FAF9F6] hover:bg-[#B91C1C] hover:text-[#FAF9F6] hover:border-[#B91C1C] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
             >
               Reset Local Storage &amp; Reboot
             </button>
@@ -1277,7 +1283,7 @@ function TranslateView({ audioEngine, settings, showBanner }) {
     <section className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-3 border-b border-[#141413]">
         <div>
-          <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.14em] text-[#57564F]">
+          <div className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.14em] text-[#57564F]">
             01 · TRANSCEIVER CONSOLE
           </div>
           <h2 className="font-['Newsreader'] text-2xl sm:text-3xl font-semibold text-[#141413] mt-0.5">
@@ -1301,17 +1307,17 @@ function TranslateView({ audioEngine, settings, showBanner }) {
       {/* Dual Input / Output Consoles */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div className="bg-[#FAF9F6] border border-[#141413] p-4 sm:p-5 flex flex-col">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between gap-2 mb-2.5">
             <label
               htmlFor="morselab-plain-input"
-              className="font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-[0.12em] text-[#141413]"
+              className={HIGHLIGHTED_FIELD_LABEL}
             >
               Plaintext Message
             </label>
             <button
               type="button"
               onClick={handleClear}
-              className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.1em] text-[#57564F] hover:text-[#B91C1C] cursor-pointer"
+              className={`min-h-[34px] px-3 py-1 bg-[#FAF9F6] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.12em] text-[#141413] ${TACTILE_BTN}`}
             >
               Clear
             </button>
@@ -1327,14 +1333,14 @@ function TranslateView({ audioEngine, settings, showBanner }) {
         </div>
 
         <div className="bg-[#FAF9F6] border border-[#141413] p-4 sm:p-5 flex flex-col">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
             <label
               htmlFor="morselab-morse-input"
-              className="font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-[0.12em] text-[#141413]"
+              className={HIGHLIGHTED_FIELD_LABEL}
             >
               International Morse Tape
             </label>
-            <span className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.1em] text-[#57564F]">
+            <span className="font-['IBM_Plex_Mono'] text-[10px] font-semibold uppercase tracking-[0.1em] text-[#57564F]">
               SPACE = LETTER · / = WORD
             </span>
           </div>
@@ -1348,7 +1354,7 @@ function TranslateView({ audioEngine, settings, showBanner }) {
           />
           {morseInput.trim() && (
             <div className="mt-3 pt-2.5 border-t border-[#141413]/15">
-              <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F] mb-1">
+              <div className="font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.12em] text-[#141413] mb-1">
                 VISUAL SIGNAL READOUT
               </div>
               <div className="font-['IBM_Plex_Mono'] text-lg sm:text-xl font-bold tracking-[0.22em] text-[#141413] break-words leading-relaxed">
@@ -1364,21 +1370,21 @@ function TranslateView({ audioEngine, settings, showBanner }) {
         <button
           type="button"
           onClick={handleTransmit}
-          className="min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+          className={`min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
         >
           Transmit Audio
         </button>
         <button
           type="button"
           onClick={handleStop}
-          className="min-h-[44px] px-5 py-2.5 bg-[#FAF9F6] hover:bg-[#B91C1C] hover:text-[#FAF9F6] hover:border-[#B91C1C] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+          className={`min-h-[44px] px-5 py-2.5 bg-[#FAF9F6] hover:bg-[#B91C1C] hover:text-[#FAF9F6] hover:border-[#B91C1C] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
         >
           Stop
         </button>
         <button
           type="button"
           onClick={handleCopyMorse}
-          className="min-h-[44px] px-5 py-2.5 bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+          className={`min-h-[44px] px-5 py-2.5 bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
         >
           Copy Morse
         </button>
@@ -1576,7 +1582,7 @@ function DrillSessionRunner({
     return (
       <div className="bg-[#FAF9F6] border border-[#141413] p-6 sm:p-8 space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#141413]/20">
-          <span className="font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-[0.12em] text-[#141413]">
+          <span className="font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#141413]">
             {mode === 'lamp'
               ? 'OPTICAL SIGNAL LAMP · READY'
               : 'EAR TRAINING · READY'}
@@ -1600,10 +1606,10 @@ function DrillSessionRunner({
         </div>
 
         <div className="bg-[#F4F3EE] border border-[#141413]/25 px-4 py-3">
-          <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F]">
+          <div className="inline-block font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.12em] text-[#141413] bg-[#EAE8E1] border border-[#141413] px-2 py-0.5">
             CURRENT KOCH POOL
           </div>
-          <div className="font-['IBM_Plex_Mono'] text-sm font-bold tracking-[0.16em] text-[#141413] mt-1">
+          <div className="font-['IBM_Plex_Mono'] text-sm font-bold tracking-[0.16em] text-[#141413] mt-1.5">
             {unlockedPool.join(' · ')}
           </div>
         </div>
@@ -1611,7 +1617,7 @@ function DrillSessionRunner({
         <button
           type="button"
           onClick={handleStartSession}
-          className="min-h-[48px] px-6 py-3 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-[0.14em] transition-colors cursor-pointer"
+          className={`min-h-[48px] px-6 py-3 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.14em] ${TACTILE_BTN}`}
         >
           {mode === 'lamp'
             ? 'Start Session & Flash Lamp'
@@ -1649,7 +1655,7 @@ function DrillSessionRunner({
   return (
     <div className="bg-[#FAF9F6] border border-[#141413] p-5 sm:p-6 space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#141413]/20">
-        <span className="font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-[0.12em] text-[#141413]">
+        <span className="font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#141413]">
           {mode === 'lamp'
             ? 'OPTICAL SIGNAL LAMP · VISUAL DECODE'
             : 'EAR TRAINING · AUDIO COPY'}
@@ -1667,26 +1673,26 @@ function DrillSessionRunner({
             }`}
             aria-label={isCarrierOn ? 'Signal lamp illuminated' : 'Signal lamp off'}
           />
-          <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.14em] text-[#57564F] mt-3">
+          <div className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.14em] text-[#57564F] mt-3">
             {isCarrierOn ? 'CARRIER MARK ON' : 'OBSERVE FLASH CADENCE'}
           </div>
           <button
             type="button"
             onClick={() => triggerPrompt(targetChar)}
-            className="mt-3 min-h-[38px] px-4 py-1.5 bg-[#FAF9F6] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+            className={`mt-3 min-h-[38px] px-4 py-1.5 bg-[#FAF9F6] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
           >
             Flash Again
           </button>
         </div>
       ) : (
         <div className="bg-[#EAE8E1] border border-[#141413] px-4 py-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] text-[#141413]">
+          <div className="font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#141413]">
             SELECT OR TYPE THE MATCHING CHARACTER
           </div>
           <button
             type="button"
             onClick={() => triggerPrompt(targetChar)}
-            className="min-h-[40px] px-4 py-2 bg-[#FAF9F6] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+            className={`min-h-[40px] px-4 py-2 bg-[#FAF9F6] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
           >
             Replay Tone
           </button>
@@ -1707,7 +1713,7 @@ function DrillSessionRunner({
 
       {/* Unlocked Character Keypad */}
       <div>
-        <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.12em] text-[#57564F] mb-2.5">
+        <div className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.12em] text-[#57564F] mb-2.5">
           ACTIVE KOCH POOL ({unlockedPool.length} SYMBOLS)
         </div>
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
@@ -1716,7 +1722,7 @@ function DrillSessionRunner({
               key={ch}
               type="button"
               onClick={(e) => handleGuess(ch, e.isTrusted)}
-              className="min-h-[48px] px-2 py-2 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] active:translate-y-[1px] border border-[#141413] font-['IBM_Plex_Mono'] text-base font-bold text-[#141413] transition-colors cursor-pointer"
+              className={`min-h-[48px] px-2 py-2 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-base font-bold text-[#141413] ${TACTILE_BTN}`}
             >
               {ch}
             </button>
@@ -1744,7 +1750,6 @@ function StraightKeyView({ audioEngine, settings, onAwardXp }) {
     STRAIGHT_KEY_LEVELS[levelIdx % STRAIGHT_KEY_LEVELS.length];
   const targetPhrase = currentChallenge.target;
 
-  // Beginner-friendly forgiving timing windows
   const ditThresholdMs = Math.max(145, (1200 / settings.wpm) * 2.2);
   const charPauseMs = Math.max(420, (1200 / settings.farnsworthWpm) * 3.8);
   const wordPauseMs = Math.max(950, (1200 / settings.farnsworthWpm) * 7.5);
@@ -1889,7 +1894,7 @@ function StraightKeyView({ audioEngine, settings, onAwardXp }) {
     <div className="bg-[#FAF9F6] border border-[#141413] p-5 sm:p-6 space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#141413]/20">
         <div>
-          <span className="font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-[0.12em] text-[#141413]">
+          <span className="font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#141413]">
             MANUAL STRAIGHT-KEY · STAGE {levelIdx + 1} OF{' '}
             {STRAIGHT_KEY_LEVELS.length}
           </span>
@@ -1908,14 +1913,14 @@ function StraightKeyView({ audioEngine, settings, onAwardXp }) {
                 muted: settings.muted,
               })
             }
-            className="min-h-[38px] px-3 py-1.5 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.1em] transition-colors cursor-pointer"
+            className={`min-h-[38px] px-3 py-1.5 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.1em] ${TACTILE_BTN}`}
           >
             Hear Target
           </button>
           <button
             type="button"
             onClick={handleAdvanceLevel}
-            className="min-h-[38px] px-3 py-1.5 bg-[#FAF9F6] hover:bg-[#EAE8E1] border border-[#141413]/40 font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.1em] text-[#57564F] cursor-pointer"
+            className={`min-h-[38px] px-3 py-1.5 bg-[#FAF9F6] hover:bg-[#EAE8E1] border border-[#141413]/40 font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.1em] text-[#57564F] ${TACTILE_BTN}`}
           >
             Skip
           </button>
@@ -1925,7 +1930,7 @@ function StraightKeyView({ audioEngine, settings, onAwardXp }) {
       {/* Beginner-Friendly Target Pattern Card */}
       <div className="bg-[#F4F3EE] border border-[#141413] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F]">
+          <div className="font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.12em] text-[#141413]">
             TARGET TO KEY
           </div>
           <div className="font-['IBM_Plex_Mono'] text-2xl sm:text-3xl font-bold tracking-[0.2em] text-[#141413] mt-0.5">
@@ -1943,7 +1948,7 @@ function StraightKeyView({ audioEngine, settings, onAwardXp }) {
       {/* Live Paper Tape Output */}
       <div className="bg-[#EAE8E1] border border-[#141413] p-4 space-y-2">
         <div className="flex items-center justify-between">
-          <span className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.12em] text-[#57564F]">
+          <span className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.12em] text-[#141413]">
             YOUR PAPER TAPE
           </span>
           <span className="font-['IBM_Plex_Mono'] text-base sm:text-lg font-bold tracking-[0.22em] text-[#1D4ED8]">
@@ -1958,7 +1963,7 @@ function StraightKeyView({ audioEngine, settings, onAwardXp }) {
       </div>
 
       {mismatchHint && (
-        <div className="px-4 py-2.5 bg-[#B91C1C]/10 border border-[#B91C1C] font-['IBM_Plex_Mono'] text-xs text-[#B91C1C]">
+        <div className="px-4 py-2.5 bg-[#B91C1C]/10 border border-[#B91C1C] font-['IBM_Plex_Mono'] text-xs font-bold text-[#B91C1C]">
           TAPE READS &ldquo;{decodedTape.trim() || 'EMPTY'}&rdquo; — CLEAR TAPE AND TRY &ldquo;{targetPhrase}&rdquo; AGAIN
         </div>
       )}
@@ -1972,9 +1977,9 @@ function StraightKeyView({ audioEngine, settings, onAwardXp }) {
         onPointerCancel={handleKeyUpAction}
         onContextMenu={(e) => e.preventDefault()}
         style={{ WebkitTouchCallout: 'none' }}
-        className={`w-full min-h-[112px] border-2 border-[#141413] font-['IBM_Plex_Mono'] text-sm font-bold uppercase tracking-[0.16em] transition-colors select-none cursor-pointer ${
+        className={`w-full min-h-[112px] border-2 border-[#141413] font-['IBM_Plex_Mono'] text-sm font-bold uppercase tracking-[0.16em] transition-all duration-75 select-none touch-manipulation cursor-pointer ${
           isPressed
-            ? 'bg-[#B91C1C] text-[#FAF9F6] translate-y-[1px]'
+            ? 'bg-[#B91C1C] text-[#FAF9F6] translate-y-[2px]'
             : 'bg-[#F4F3EE] hover:bg-[#EAE8E1] text-[#141413]'
         }`}
       >
@@ -1987,7 +1992,7 @@ function StraightKeyView({ audioEngine, settings, onAwardXp }) {
         <button
           type="button"
           onClick={handleCheckTarget}
-          className="min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+          className={`min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
         >
           Verify &ldquo;{targetPhrase}&rdquo;
         </button>
@@ -2000,7 +2005,7 @@ function StraightKeyView({ audioEngine, settings, onAwardXp }) {
             setDecodedTape('');
             setMismatchHint(false);
           }}
-          className="min-h-[44px] px-4 py-2.5 bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+          className={`min-h-[44px] px-4 py-2.5 bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
         >
           Clear Tape
         </button>
@@ -2065,10 +2070,10 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
         <button
           type="button"
           onClick={() => setChallengeType('daily')}
-          className={`min-h-[40px] px-4 py-2 border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer ${
+          className={`min-h-[40px] px-4 py-2 border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN} ${
             challengeType === 'daily'
               ? 'bg-[#141413] text-[#FAF9F6]'
-              : 'bg-[#FAF9F6] text-[#141413]'
+              : 'bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413]'
           }`}
         >
           Daily Intercept ({TODAY_DATE_STR})
@@ -2076,10 +2081,10 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
         <button
           type="button"
           onClick={() => setChallengeType('sos')}
-          className={`min-h-[40px] px-4 py-2 border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer ${
+          className={`min-h-[40px] px-4 py-2 border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN} ${
             challengeType === 'sos'
               ? 'bg-[#141413] text-[#FAF9F6]'
-              : 'bg-[#FAF9F6] text-[#141413]'
+              : 'bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413]'
           }`}
         >
           SOS Survival Streak
@@ -2112,10 +2117,10 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
             className="bg-[#FAF9F6] border border-[#141413] p-5 sm:p-6 space-y-4"
           >
             <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#141413]/20">
-              <span className="font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-[0.12em] text-[#141413]">
+              <span className="font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#141413]">
                 {daily.id} · {daily.origin}
               </span>
-              <span className="font-['IBM_Plex_Mono'] text-xs text-[#1D4ED8]">
+              <span className="font-['IBM_Plex_Mono'] text-xs font-bold text-[#1D4ED8]">
                 {daily.band}
               </span>
             </div>
@@ -2131,14 +2136,14 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
                     muted: settings.muted,
                   })
                 }
-                className="min-h-[44px] px-4 py-2 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer"
+                className={`min-h-[44px] px-4 py-2 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
               >
                 Play Intercept Transmission
               </button>
               <button
                 type="button"
                 onClick={() => audioEngine.stopAll()}
-                className="min-h-[44px] px-4 py-2 bg-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer"
+                className={`min-h-[44px] px-4 py-2 bg-[#FAF9F6] hover:bg-[#EAE8E1] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
               >
                 Stop
               </button>
@@ -2147,7 +2152,7 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
             <div>
               <label
                 htmlFor="daily-intercept-guess"
-                className="block font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] text-[#57564F] mb-1.5"
+                className={`${HIGHLIGHTED_FIELD_LABEL} mb-2`}
               >
                 Decoded Plaintext Copy
               </label>
@@ -2165,14 +2170,14 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
             </div>
 
             {dailyError && (
-              <div className="font-['IBM_Plex_Mono'] text-xs text-[#B91C1C]">
+              <div className="font-['IBM_Plex_Mono'] text-xs font-bold text-[#B91C1C]">
                 COPY MISMATCH · REPLAY INTERCEPT AND VERIFY WORD SPACING
               </div>
             )}
 
             <button
               type="submit"
-              className="min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer"
+              className={`min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
             >
               Submit Intercept Log
             </button>
@@ -2200,7 +2205,7 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
           className="bg-[#FAF9F6] border border-[#141413] p-5 sm:p-6 space-y-4"
         >
           <div className="flex items-center justify-between pb-3 border-b border-[#141413]/20">
-            <span className="font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-[0.12em] text-[#B91C1C]">
+            <span className="font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#B91C1C]">
               EMERGENCY CALLSIGN DRILL · 5 CONSECUTIVE TO CLEAR
             </span>
             <span className="font-['IBM_Plex_Mono'] text-xs font-bold tabular-nums">
@@ -2218,7 +2223,7 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
                 muted: settings.muted,
               })
             }
-            className="min-h-[44px] px-4 py-2 bg-[#B91C1C] hover:bg-[#141413] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer"
+            className={`min-h-[44px] px-4 py-2 bg-[#B91C1C] hover:bg-[#141413] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
           >
             Key Distress Callsign
           </button>
@@ -2226,7 +2231,7 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
           <div>
             <label
               htmlFor="sos-callsign-input"
-              className="block font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] text-[#57564F] mb-1.5"
+              className={`${HIGHLIGHTED_FIELD_LABEL} mb-2`}
             >
               Enter Copied Callsign
             </label>
@@ -2242,7 +2247,7 @@ function ChallengesSubView({ audioEngine, settings, onAwardXp }) {
 
           <button
             type="submit"
-            className="min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer"
+            className={`min-h-[44px] px-5 py-2.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
           >
             Verify Callsign
           </button>
@@ -2273,14 +2278,14 @@ function TrainView({
     <section className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-3 border-b border-[#141413]">
         <div>
-          <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.14em] text-[#57564F]">
+          <div className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.14em] text-[#57564F]">
             02 · KOCH CURRICULUM &amp; DRILLS
           </div>
           <h2 className="font-['Newsreader'] text-2xl sm:text-3xl font-semibold text-[#141413] mt-0.5">
             Continuous-Wave Operator Training
           </h2>
         </div>
-        <div className="font-['IBM_Plex_Mono'] text-xs font-semibold text-[#1D4ED8] tabular-nums">
+        <div className="font-['IBM_Plex_Mono'] text-xs font-bold text-[#1D4ED8] tabular-nums">
           KOCH LEVEL {logbook.kochLevel} / {KOCH_SEQUENCE.length} · {logbook.xp} XP
         </div>
       </div>
@@ -2295,9 +2300,9 @@ function TrainView({
               audioEngine.stopAll();
               setDrillMode(m.id);
             }}
-            className={`min-h-[44px] px-3 py-2.5 border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer ${
+            className={`min-h-[44px] px-3 py-2.5 border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN} ${
               drillMode === m.id
-                ? 'bg-[#141413] text-[#FAF9F6] font-semibold'
+                ? 'bg-[#141413] text-[#FAF9F6]'
                 : 'bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413]'
             }`}
           >
@@ -2401,7 +2406,7 @@ function LogbookView({
     <section className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-3 border-b border-[#141413]">
         <div>
-          <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.14em] text-[#57564F]">
+          <div className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.14em] text-[#57564F]">
             03 · OPERATOR LOGBOOK
           </div>
           <h2 className="font-['Newsreader'] text-2xl sm:text-3xl font-semibold text-[#141413] mt-0.5">
@@ -2412,7 +2417,7 @@ function LogbookView({
           <button
             type="button"
             onClick={handleExportJson}
-            className="min-h-[40px] px-3.5 py-2 bg-[#FAF9F6] hover:bg-[#EAE8E1] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer"
+            className={`min-h-[40px] px-3.5 py-2 bg-[#FAF9F6] hover:bg-[#EAE8E1] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
           >
             Export JSON
           </button>
@@ -2420,7 +2425,7 @@ function LogbookView({
             <button
               type="button"
               onClick={() => setConfirmPurge(true)}
-              className="min-h-[40px] px-3.5 py-2 bg-[#FAF9F6] hover:bg-[#B91C1C] hover:text-[#FAF9F6] hover:border-[#B91C1C] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+              className={`min-h-[40px] px-3.5 py-2 bg-[#FAF9F6] hover:bg-[#B91C1C] hover:text-[#FAF9F6] hover:border-[#B91C1C] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
             >
               Purge Logbook
             </button>
@@ -2432,7 +2437,7 @@ function LogbookView({
                 setConfirmPurge(false);
                 showBanner('Local training logbook permanently cleared');
               }}
-              className="min-h-[40px] px-3.5 py-2 bg-[#B91C1C] text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer"
+              className={`min-h-[40px] px-3.5 py-2 bg-[#B91C1C] text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
             >
               Confirm Permanent Reset
             </button>
@@ -2443,7 +2448,7 @@ function LogbookView({
       {/* Summary Telemetry Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="bg-[#FAF9F6] border border-[#141413] p-4">
-          <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F]">
+          <div className="font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.12em] text-[#57564F]">
             KOCH RANK
           </div>
           <div className="font-['IBM_Plex_Mono'] text-xl sm:text-2xl font-bold text-[#141413] tabular-nums mt-1">
@@ -2451,7 +2456,7 @@ function LogbookView({
           </div>
         </div>
         <div className="bg-[#FAF9F6] border border-[#141413] p-4">
-          <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F]">
+          <div className="font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.12em] text-[#57564F]">
             TOTAL EXPERIENCE
           </div>
           <div className="font-['IBM_Plex_Mono'] text-xl sm:text-2xl font-bold text-[#1D4ED8] tabular-nums mt-1">
@@ -2459,7 +2464,7 @@ function LogbookView({
           </div>
         </div>
         <div className="bg-[#FAF9F6] border border-[#141413] p-4">
-          <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F]">
+          <div className="font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.12em] text-[#57564F]">
             OVERALL ACCURACY
           </div>
           <div className="font-['IBM_Plex_Mono'] text-xl sm:text-2xl font-bold text-[#141413] tabular-nums mt-1">
@@ -2467,7 +2472,7 @@ function LogbookView({
           </div>
         </div>
         <div className="bg-[#FAF9F6] border border-[#141413] p-4">
-          <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F]">
+          <div className="font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.12em] text-[#57564F]">
             MASTERED SYMBOLS
           </div>
           <div className="font-['IBM_Plex_Mono'] text-xl sm:text-2xl font-bold text-[#15803D] tabular-nums mt-1">
@@ -2509,13 +2514,13 @@ function LogbookView({
             if (pct !== null) {
               if (pct >= 85) {
                 barColor = 'bg-[#15803D]';
-                pctColor = 'text-[#15803D] font-semibold';
+                pctColor = 'text-[#15803D] font-bold';
               } else if (pct >= 60) {
                 barColor = 'bg-[#1D4ED8]';
-                pctColor = 'text-[#1D4ED8] font-semibold';
+                pctColor = 'text-[#1D4ED8] font-bold';
               } else {
                 barColor = 'bg-[#B91C1C]';
-                pctColor = 'text-[#B91C1C] font-semibold';
+                pctColor = 'text-[#B91C1C] font-bold';
               }
             }
 
@@ -2524,7 +2529,7 @@ function LogbookView({
                 key={ch}
                 type="button"
                 onClick={() => handleTileAudition(ch)}
-                className={`p-3 border text-left transition-colors active:translate-y-[1px] cursor-pointer flex flex-col justify-between min-h-[86px] ${
+                className={`p-3 border text-left flex flex-col justify-between min-h-[86px] ${TACTILE_BTN} ${
                   isAuditioning
                     ? 'bg-[#EAE8E1] border-[#1D4ED8] ring-1 ring-[#1D4ED8]'
                     : 'bg-[#F4F3EE] hover:bg-[#EAE8E1] border-[#141413]/30 hover:border-[#141413]'
@@ -2565,16 +2570,12 @@ function LogbookView({
 // 9. EDITORIAL DOCUMENTATION: OPERATOR MANUAL, TERMS OF SERVICE & PRIVACY
 // ============================================================================
 
-// ============================================================================
-// 9. EDITORIAL DOCUMENTATION: OPERATOR MANUAL, TERMS OF SERVICE & PRIVACY
-// ============================================================================
-
 function DocumentShell({ sectionTag, title, updatedDate, onBack, children }) {
   return (
     <article className="bg-[#FAF9F6] border border-[#141413] p-6 sm:p-10 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#141413]">
         <div>
-          <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.14em] text-[#57564F]">
+          <div className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.14em] text-[#57564F]">
             {sectionTag} · {updatedDate}
           </div>
           <h2 className="font-['Newsreader'] text-2xl sm:text-3xl font-semibold text-[#141413] mt-1">
@@ -2584,7 +2585,7 @@ function DocumentShell({ sectionTag, title, updatedDate, onBack, children }) {
         <button
           type="button"
           onClick={onBack}
-          className="min-h-[40px] px-4 py-2 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+          className={`min-h-[40px] px-4 py-2 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
         >
           Return to Station
         </button>
@@ -2601,7 +2602,7 @@ function DocumentShell({ sectionTag, title, updatedDate, onBack, children }) {
         <button
           type="button"
           onClick={onBack}
-          className="min-h-[40px] px-4 py-2 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer"
+          className={`min-h-[40px] px-4 py-2 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN}`}
         >
           Return to Station
         </button>
@@ -2898,7 +2899,7 @@ function PrivacyView({ onBack }) {
       </section>
     </DocumentShell>
   );
-} 
+}
 
 // ============================================================================
 // 10. MAIN APPLICATION WORKSPACE
@@ -3201,7 +3202,7 @@ function MorseLabWorkspace({ audioEngine }) {
             <button
               type="button"
               onClick={dismissBanner}
-              className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.12em] text-[#FAF9F6]/80 hover:text-[#FAF9F6] border border-[#FAF9F6]/30 px-2 py-0.5 cursor-pointer shrink-0"
+              className={`font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.12em] text-[#FAF9F6]/80 hover:text-[#FAF9F6] border border-[#FAF9F6]/30 px-2 py-0.5 shrink-0 ${TACTILE_BTN}`}
             >
               Dismiss
             </button>
@@ -3230,7 +3231,7 @@ function MorseLabWorkspace({ audioEngine }) {
             <button
               type="button"
               onClick={() => setActiveTab('translate')}
-              className="flex items-center gap-3 text-left cursor-pointer"
+              className={`flex items-center gap-3 text-left ${TACTILE_BTN}`}
             >
               <MorseLabLogo size={28} />
               <div>
@@ -3253,9 +3254,9 @@ function MorseLabWorkspace({ audioEngine }) {
                   key={item.id}
                   type="button"
                   onClick={() => setActiveTab(item.id)}
-                  className={`min-h-[40px] px-3 sm:px-4 py-2 border font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.1em] transition-colors cursor-pointer ${
+                  className={`min-h-[40px] px-3 sm:px-4 py-2 border font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.1em] ${TACTILE_BTN} ${
                     activeTab === item.id
-                      ? 'bg-[#141413] text-[#FAF9F6] border-[#141413] font-semibold'
+                      ? 'bg-[#141413] text-[#FAF9F6] border-[#141413]'
                       : 'bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413] border-[#141413]/30'
                   }`}
                 >
@@ -3284,7 +3285,7 @@ function MorseLabWorkspace({ audioEngine }) {
                 type="button"
                 onClick={() => setAudioDrawerOpen((o) => !o)}
                 aria-expanded={audioDrawerOpen}
-                className={`min-h-[40px] px-3 py-2 border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.1em] transition-colors cursor-pointer ${
+                className={`min-h-[40px] px-3 py-2 border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.1em] ${TACTILE_BTN} ${
                   audioDrawerOpen
                     ? 'bg-[#1D4ED8] text-[#FAF9F6] border-[#1D4ED8]'
                     : 'bg-[#FAF9F6] hover:bg-[#EAE8E1] text-[#141413]'
@@ -3302,12 +3303,10 @@ function MorseLabWorkspace({ audioEngine }) {
                 <div>
                   <label
                     htmlFor="ctrl-wpm"
-                    className="flex justify-between font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.1em] text-[#141413] mb-1.5"
+                    className="flex justify-between font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.1em] text-[#141413] mb-1.5"
                   >
                     <span>Character Speed</span>
-                    <span className="font-bold tabular-nums">
-                      {settings.wpm} WPM
-                    </span>
+                    <span className="tabular-nums">{settings.wpm} WPM</span>
                   </label>
                   <input
                     id="ctrl-wpm"
@@ -3330,10 +3329,10 @@ function MorseLabWorkspace({ audioEngine }) {
                 <div>
                   <label
                     htmlFor="ctrl-farnsworth"
-                    className="flex justify-between font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.1em] text-[#141413] mb-1.5"
+                    className="flex justify-between font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.1em] text-[#141413] mb-1.5"
                   >
                     <span>Farnsworth Spacing</span>
-                    <span className="font-bold tabular-nums">
+                    <span className="tabular-nums">
                       {settings.farnsworthWpm} WPM
                     </span>
                   </label>
@@ -3356,12 +3355,10 @@ function MorseLabWorkspace({ audioEngine }) {
                 <div>
                   <label
                     htmlFor="ctrl-freq"
-                    className="flex justify-between font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.1em] text-[#141413] mb-1.5"
+                    className="flex justify-between font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.1em] text-[#141413] mb-1.5"
                   >
                     <span>Sidetone Pitch</span>
-                    <span className="font-bold tabular-nums">
-                      {settings.freq} HZ
-                    </span>
+                    <span className="tabular-nums">{settings.freq} HZ</span>
                   </label>
                   <input
                     id="ctrl-freq"
@@ -3387,10 +3384,10 @@ function MorseLabWorkspace({ audioEngine }) {
                       if (!settings.muted) audioEngine.stopAll();
                       setSettings((s) => ({ ...s, muted: !s.muted }));
                     }}
-                    className={`w-full min-h-[40px] px-3 py-2 border border-[#141413] font-['IBM_Plex_Mono'] text-xs uppercase tracking-[0.12em] cursor-pointer ${
+                    className={`w-full min-h-[40px] px-3 py-2 border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN} ${
                       settings.muted
                         ? 'bg-[#B91C1C] text-[#FAF9F6]'
-                        : 'bg-[#FAF9F6] text-[#141413]'
+                        : 'bg-[#FAF9F6] hover:bg-[#141413] hover:text-[#FAF9F6] text-[#141413]'
                     }`}
                   >
                     {settings.muted ? 'Sidetone Muted' : 'Sidetone Active'}
@@ -3405,13 +3402,13 @@ function MorseLabWorkspace({ audioEngine }) {
         {tamperAlert && (
           <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-4">
             <div className="bg-[#B91C1C]/10 border border-[#B91C1C] px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-              <span className="font-['IBM_Plex_Mono'] text-xs text-[#B91C1C] font-semibold">
+              <span className="font-['IBM_Plex_Mono'] text-xs text-[#B91C1C] font-bold">
                 SECURITY NOTICE · TAMPERED OR CORRUPTED LOCAL STORAGE QUARANTINED AND RESET
               </span>
               <button
                 type="button"
                 onClick={() => setTamperAlert(false)}
-                className="font-['IBM_Plex_Mono'] text-xs uppercase underline text-[#B91C1C] cursor-pointer"
+                className={`font-['IBM_Plex_Mono'] text-xs font-bold uppercase underline text-[#B91C1C] ${TACTILE_BTN}`}
               >
                 Acknowledge
               </button>
@@ -3470,7 +3467,7 @@ function MorseLabWorkspace({ audioEngine }) {
                     // Ignore storage error
                   }
                 }}
-                className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.12em] text-[#141413] underline cursor-pointer"
+                className={`font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.12em] text-[#141413] underline ${TACTILE_BTN}`}
               >
                 Dismiss Notice
               </button>
@@ -3482,7 +3479,7 @@ function MorseLabWorkspace({ audioEngine }) {
           <div className="flex items-center gap-3">
             <MorseLabLogo size={22} />
             <div className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.1em] text-[#57564F] flex flex-wrap items-center gap-x-2 gap-y-1">
-              <span className="text-[#141413] font-semibold">
+              <span className="text-[#141413] font-bold">
                 RAYCE MANUEL E. FILLON
               </span>
               <span>·</span>
@@ -3511,7 +3508,7 @@ function MorseLabWorkspace({ audioEngine }) {
             <button
               type="button"
               onClick={() => setActiveTab('manual')}
-              className={`cursor-pointer ${
+              className={`${TACTILE_BTN} ${
                 activeTab === 'manual'
                   ? 'text-[#1D4ED8] font-bold underline'
                   : 'text-[#141413] hover:text-[#1D4ED8]'
@@ -3522,7 +3519,7 @@ function MorseLabWorkspace({ audioEngine }) {
             <button
               type="button"
               onClick={() => setActiveTab('terms')}
-              className={`cursor-pointer ${
+              className={`${TACTILE_BTN} ${
                 activeTab === 'terms'
                   ? 'text-[#1D4ED8] font-bold underline'
                   : 'text-[#141413] hover:text-[#1D4ED8]'
@@ -3533,7 +3530,7 @@ function MorseLabWorkspace({ audioEngine }) {
             <button
               type="button"
               onClick={() => setActiveTab('privacy')}
-              className={`cursor-pointer ${
+              className={`${TACTILE_BTN} ${
                 activeTab === 'privacy'
                   ? 'text-[#1D4ED8] font-bold underline'
                   : 'text-[#141413] hover:text-[#1D4ED8]'
