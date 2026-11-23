@@ -106,17 +106,27 @@ server.js is a zero-dependency Node.js HTTP server that serves the compiled dist
 
 <div align="center">
 
+<div align="center">
+
 ### Author & Operator
 
 **Rayce Manuel E. Fillon**
 
-[![Email](https://img.shields.io/badge/EMAIL-ZERORAYCE%40GMAIL.COM-141413?style=flat-square&labelColor=EAE8E1)](mailto:zerorayce@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/LINKEDIN-RAYCEFILLON-1D4ED8?style=flat-square&labelColor=141413)](https://www.linkedin.com/in/raycefillon)
-[![GitHub](https://img.shields.io/badge/GITHUB-ZRAYCE%2FMORSELAB-141413?style=flat-square&labelColor=EAE8E1)](https://github.com/ZRayce/morselab)
+<p>
+  <a href="mailto:zerorayce@gmail.com">
+    <img src="https://img.shields.io/badge/EMAIL-ZERORAYCE%40GMAIL.COM-FAF9F6?style=for-the-badge&labelColor=141413&color=FAF9F6&logo=gmail&logoColor=141413" alt="Email Rayce Manuel E. Fillon" />
+  </a>
+  <a href="https://www.linkedin.com/in/raycefillon">
+    <img src="https://img.shields.io/badge/LINKEDIN-RAYCEFILLON-1D4ED8?style=for-the-badge&labelColor=141413&logo=linkedin&logoColor=FAF9F6" alt="Rayce Fillon on LinkedIn" />
+  </a>
+  <a href="https://github.com/ZRayce/morselab">
+    <img src="https://img.shields.io/badge/GITHUB-ZRAYCE%2FMORSELAB-EAE8E1?style=for-the-badge&labelColor=141413&color=EAE8E1&logo=github&logoColor=141413" alt="ZRayce on GitHub" />
+  </a>
+</p>
 
 <br />
 
-<img src="./public/shots/columbina-i'm-going-to-touch-you(dont-mind-the-name).gif" alt="Funny WW2 telegraph operator meme GIF" width="320" />
+<img src="./public/shots/columbina-i'm-going-to-touch-you(dont-mind-the-name).gif" alt="Funny WW2 telegraph operator meme GIF" width="220" />
 <br />
 <sub><i>Me at 2 AM trying to figure out if that was a Dah or a really long Dit.</i></sub>
 
