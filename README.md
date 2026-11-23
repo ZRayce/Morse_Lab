@@ -102,5 +102,20 @@ npm start
 
 server.js is a zero-dependency Node.js HTTP server that serves the compiled dist/ bundle with path-traversal protection, security headers, SPA fallback routing, and optional MAINTENANCE_MODE=true support.
 
+<div align="center">
+
 ### Author & Operator
-Rayce Manuel E. Fillon
+
+**Rayce Manuel E. Fillon**
+
+[![Email](https://img.shields.io/badge/EMAIL-ZERORAYCE%40GMAIL.COM-141413?style=flat-square&labelColor=EAE8E1)](mailto:zerorayce@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LINKEDIN-RAYCEFILLON-1D4ED8?style=flat-square&labelColor=141413)](https://www.linkedin.com/in/raycefillon)
+[![GitHub](https://img.shields.io/badge/GITHUB-ZRAYCE%2FMORSELAB-141413?style=flat-square&labelColor=EAE8E1)](https://github.com/ZRayce/morselab)
+
+<br />
+
+<img src="./public/ww2-morse-meme.gif" alt="Funny WW2 telegraph operator meme GIF" width="320" />
+<br />
+<sub><i>Me at 2 AM trying to figure out if that was a Dah or a really long Dit.</i></sub>
+
+</div>
