@@ -1,7 +1,8 @@
 <div align="center">
-  <img src="./public/logo.svg" alt="MorseLab Geometric Telegraph Logo" width="84" height="84" />
+  <img src="./public/logo.svg" alt="MorseLab Geometric Telegraph Logo" width="88" height="88" />
   <h1>MORSELAB</h1>
   <p><strong>Continuous-Wave (CW) Telegraph Manual, Koch Trainer &amp; Signed Operator Logbook</strong></p>
+  <p><code>— · — · &nbsp; — — · — &nbsp;&nbsp; · — · — &nbsp; · — · · &nbsp; · — &nbsp; — · · ·</code></p>
 
   <p>
     <a href="https://morselab-station.vercel.app">
@@ -17,7 +18,7 @@
 
 ---
 
-## What is MorseLab?
+## Overview
 
 **MorseLab** is a precision, browser-based Continuous-Wave (CW) Morse code transceiver, spaced-repetition trainer, and cryptographically signed practice logbook modeled after archival Swiss technical manuals and classic Braun test instruments.
 
@@ -35,7 +36,19 @@ Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, clu
 * **Amateur Radio (Ham) & Emergency Communicators:** Operators preparing for CW band contacts, field day operations, or backup off-grid communication drills where clean Farnsworth spacing and straight-key cadence matter.
 * **Military & Tactical Signal Trainees:** Service members, cadets, and signal specialists looking for a lightweight, zero-tracking, self-hostable practice terminal for ear copy, optical signal lamp flashing, and distress callsign drills.
 
-> *Educational & Training Notice:* MorseLab is an educational simulation and practice utility—not certified maritime, aviation, or military distress equipment.
+> **Educational & Training Notice:** MorseLab is an educational simulation and practice utility-not certified maritime, aviation, or military distress equipment.
+
+---
+
+## Station Preview
+
+<div align="center">
+
+| `01` · Bidirectional Translator | `02` · Koch Operator Training | `03` · Operator Logbook & Matrix |
+| :---: | :---: | :---: |
+| <img src="./Screenshot%202026-11-23%20185852.png" alt="MorseLab Bidirectional Translator" width="275" /> | <img src="./Screenshot%202026-11-23%20185902.png" alt="MorseLab Koch Operator Training" width="275" /> | <img src="./Screenshot%202026-11-23%20185915.png" alt="MorseLab Operator Logbook and Matrix" width="275" /> |
+
+</div>
 
 ---
 
@@ -43,22 +56,12 @@ Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, clu
 
 | Module | Description |
 | :--- | :--- |
-| **01. Bidirectional Translator** | Real-time Plaintext-to-Morse and Morse-to-Plaintext conversion with high-contrast visual signal tape, live keying readout, and 4-second auto-dismissing clipboard confirmation. |
-| **02. Ear Training & Signal Lamp** | Session-gated 10-character Koch curriculum drills supporting both sidetone audio copy and silent optical carrier flashes, promoting automatically at 85%+ accuracy. |
-| **02. Manual Straight Key** | 10-stage progressive keying simulator (`E`, `T`, `I`, `A`, `N`, `M`, `S`, `O`, `HI`, `73`) using Spacebar or touch contact with real-time paper-tape decoding. |
-| **02. Daily Intercepts & SOS** | Simulated HF weather and maritime radio broadcasts alongside a 5-callsign consecutive emergency beacon streak challenge. |
-| **03. Logbook & Mastery Matrix** | Interactive 36-character (`A–Z`, `0–9`) accuracy matrix with one-tap sidetone auditioning, JSON export, and keyed `HMAC-SHA256` local storage verification. |
-| **Audio & Timing Console** | Collapsible transceiver drawer with one-tap skill presets (*Beginner*, *Standard*, *Fast CW*), Character Speed (8–40 WPM), Farnsworth Letter Pause, Sidetone Pitch (400–1000 Hz), and live tone testing. |
-
----
-
-## Station Preview
-
-| Bidirectional Translator | Koch Operator Training | Operator Logbook & Matrix |
-| :---: | :---: | :---: |
-| <img src="./Screenshot%202026-11-23%20072751.png" alt="MorseLab Bidirectional Translator" width="260" /> | <img src="./Screenshot%202026-11-23%20072740.png" alt="MorseLab Koch Operator Training" width="260" /> | <img src="./Screenshot%202026-11-23%20072729.png" alt="MorseLab Operator Logbook & Matrix" width="260" /> |
-
-*(Tip: If you organize your screenshots into a `public/shots/` folder later, update the image paths above to `./public/shots/...`.)*
+| **`01` · Bidirectional Translator** | Real-time Plaintext-to-Morse and Morse-to-Plaintext conversion with high-contrast visual signal tape, live keying readout, and 4-second auto-dismissing clipboard confirmation. |
+| **`02` · Ear Training & Signal Lamp** | Session-gated 10-character Koch curriculum drills supporting both sidetone audio copy and silent optical carrier flashes, promoting automatically at 85%+ accuracy. |
+| **`02` · Manual Straight Key** | 10-stage progressive keying simulator (`E`, `T`, `I`, `A`, `N`, `M`, `S`, `O`, `HI`, `73`) using Spacebar or touch contact with real-time paper-tape decoding. |
+| **`02` · Daily Intercepts & SOS** | Simulated HF weather and maritime radio broadcasts alongside a 5-callsign consecutive emergency beacon streak challenge. |
+| **`03` · Logbook & Mastery Matrix** | Interactive 36-character (`A–Z`, `0–9`) accuracy matrix with one-tap sidetone auditioning, JSON export, and keyed `HMAC-SHA256` local storage verification. |
+| **`AUX` · Audio & Timing Console** | Collapsible transceiver drawer with one-tap skill presets (*Beginner*, *Standard*, *Fast CW*), Character Speed (8–40 WPM), Farnsworth Letter Pause, Sidetone Pitch (400–1000 Hz), and live tone testing. |
 
 ---
 
@@ -91,18 +94,13 @@ npm install
 npm run dev
 ```
 
-Build & Run Standalone Production Server
-
-```Bash
+### Build & Run Standalone Production Server
+```bash
 npm run build
 npm start
 ```
 
 server.js is a zero-dependency Node.js HTTP server that serves the compiled dist/ bundle with path-traversal protection, security headers, SPA fallback routing, and optional MAINTENANCE_MODE=true support.
 
-### Author
-Name: Rayce Manuel E. Fillon
-
-Email: zerorayce@gmail.com
-
-LinkedIn: linkedin.com/in/raycefillon
+### Author & Operator
+Rayce Manuel E. Fillon
