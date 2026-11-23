@@ -815,32 +815,22 @@ function CompletionCard({
 // 5. STATION CALIBRATION BOOT SCREEN & SYSTEM FAULT / OFFLINE RECOVERY
 // ============================================================================
 
-function StationBootScreen({ onComplete, audioEngine }) {
+function StationBootScreen({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const completedRef = useRef(false);
-  const chimePlayedRef = useRef(false);
 
-  const finishBoot = useCallback(
-    (withSound) => {
-      if (withSound && !chimePlayedRef.current) {
-        chimePlayedRef.current = true;
-        if (audioEngine && typeof audioEngine.playBootChime === 'function') {
-          audioEngine.playBootChime(false);
-        }
-      }
-      if (!completedRef.current) {
-        completedRef.current = true;
-        onComplete();
-      }
-    },
-    [audioEngine, onComplete]
-  );
+  const finishBoot = useCallback(() => {
+    if (!completedRef.current) {
+      completedRef.current = true;
+      onComplete();
+    }
+  }, [onComplete]);
 
   useEffect(() => {
     let rafId = 0;
     let startTime = null;
     let holdTimeout = null;
-    const duration = 2850;
+    const duration = 2600;
 
     const step = (timestamp) => {
       if (startTime === null) {
@@ -856,8 +846,8 @@ function StationBootScreen({ onComplete, audioEngine }) {
         rafId = window.requestAnimationFrame(step);
       } else {
         holdTimeout = window.setTimeout(() => {
-          finishBoot(false);
-        }, 550);
+          finishBoot();
+        }, 450);
       }
     };
 
@@ -869,21 +859,6 @@ function StationBootScreen({ onComplete, audioEngine }) {
         window.clearTimeout(holdTimeout);
       }
     };
-  }, [finishBoot]);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        finishBoot(true);
-      } else if (e.key === 'Escape') {
-        e.preventDefault();
-        finishBoot(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [finishBoot]);
 
   const totalLetters = WELCOME_TAPE_STEPS.length;
@@ -996,7 +971,7 @@ function StationBootScreen({ onComplete, audioEngine }) {
         </div>
 
         {/* 02. Perforated Paper-Tape WELCOME Greeting */}
-        <div className="px-5 sm:px-7 py-6 border-b border-[#141413] bg-[#EAE8E1]">
+        <div className="px-5 sm:px-7 py-6 bg-[#EAE8E1]">
           <div className="flex items-center justify-between mb-3">
             <span className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.14em] text-[#57564F]">
               STATION GREETING TAPE
@@ -1039,30 +1014,6 @@ function StationBootScreen({ onComplete, audioEngine }) {
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        {/* Bottom Gesture & Bypass Controls */}
-        <div className="px-5 sm:px-7 py-4 bg-[#FAF9F6] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.12em] text-[#57564F]">
-            ENTER: KEY SIDETONE · ESC: SILENT BYPASS
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => finishBoot(false)}
-              className={`flex-1 sm:flex-none min-h-[44px] px-4 py-2 border border-[#141413] bg-[#FAF9F6] hover:bg-[#EAE8E1] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#141413] ${TACTILE_BTN}`}
-            >
-              Bypass
-            </button>
-            <button
-              type="button"
-              onClick={() => finishBoot(true)}
-              className={`flex-1 sm:flex-none min-h-[44px] px-4 py-2 border border-[#141413] bg-[#141413] hover:bg-[#1D4ED8] hover:border-[#1D4ED8] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#FAF9F6] ${TACTILE_BTN}`}
-            >
-              Engage &amp; Key Sidetone
-            </button>
           </div>
         </div>
       </div>
@@ -2640,7 +2591,7 @@ function ManualView({ onBack }) {
           <code className="font-['IBM_Plex_Mono'] bg-[#EAE8E1] px-1.5 py-0.5 text-xs text-[#141413]">
             1200 / WPM
           </code>{' '}
-          milliseconds. Open the <strong className="text-[#141413]">Audio</strong> drawer in the top navigation bar to adjust Character Speed (8–40 WPM), Farnsworth Spacing, Sidetone Pitch (400–1000 Hz), or Mute state.
+          milliseconds. Open the <strong className="text-[#141413]">Audio</strong> drawer in the top navigation bar to choose a quick preset or adjust Character Speed (8–40 WPM), Letter Pause (Farnsworth Spacing), Sidetone Pitch (400–1000 Hz), or Mute state.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 font-['IBM_Plex_Mono'] text-xs">
           <div className="bg-[#F4F3EE] border border-[#141413]/30 p-3">
@@ -2662,7 +2613,7 @@ function ManualView({ onBack }) {
         </div>
         <p className="text-[#57564F] pt-1">
           Setting <strong className="text-[#141413]">Character Speed</strong> to 18–20 WPM while lowering{' '}
-          <strong className="text-[#141413]">Farnsworth Spacing</strong> to 10–14 WPM preserves authentic character sound shapes while giving you extra pause time between letters—preventing the habit of counting dots.
+          <strong className="text-[#141413]">Letter Pause</strong> to 10–14 WPM preserves authentic character sound shapes while giving you extra pause time between letters—preventing the habit of counting dots.
         </p>
       </section>
 
@@ -2688,10 +2639,10 @@ function ManualView({ onBack }) {
 
       <section className="space-y-2">
         <h3 className="font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] text-[#1D4ED8]">
-          04 · LOGBOOK MATRIX &amp; KEYBOARD SHORTCUTS
+          04 · LOGBOOK MATRIX &amp; SESSION SAFETY
         </h3>
         <p className="text-[#57564F]">
-          In <strong className="text-[#141413]">03. Logbook</strong>, tap any tile in the 36-Character Mastery Matrix to audition its sidetone pattern or review accuracy thresholds (<code className="font-['IBM_Plex_Mono'] text-xs text-[#141413]">&lt;60%</code> Weak, <code className="font-['IBM_Plex_Mono'] text-xs text-[#141413]">60–84%</code> Developing, <code className="font-['IBM_Plex_Mono'] text-xs text-[#141413]">85%+</code> Mastered). During initial station calibration, press <code className="font-['IBM_Plex_Mono'] text-xs text-[#141413]">Enter</code> or <code className="font-['IBM_Plex_Mono'] text-xs text-[#141413]">Space</code> to unlock audio and key the startup sidetone, or press <code className="font-['IBM_Plex_Mono'] text-xs text-[#141413]">Esc</code> for silent entry. Switching browser tabs automatically stops active audio transmissions.
+          In <strong className="text-[#141413]">03. Logbook</strong>, tap any tile in the 36-Character Mastery Matrix to audition its sidetone pattern or review accuracy thresholds (<code className="font-['IBM_Plex_Mono'] text-xs text-[#141413]">&lt;60%</code> Weak, <code className="font-['IBM_Plex_Mono'] text-xs text-[#141413]">60–84%</code> Developing, <code className="font-['IBM_Plex_Mono'] text-xs text-[#141413]">85%+</code> Mastered). During initial station calibration, MorseLab automatically aligns the 680 Hz reference carrier before opening the transceiver console. Switching browser tabs automatically stops active audio transmissions.
         </p>
       </section>
     </DocumentShell>
@@ -3171,12 +3122,7 @@ function MorseLabWorkspace({ audioEngine }) {
   }
 
   if (!bootDone) {
-    return (
-      <StationBootScreen
-        onComplete={() => setBootDone(true)}
-        audioEngine={audioEngine}
-      />
-    );
+    return <StationBootScreen onComplete={() => setBootDone(true)} />;
   }
 
   const navItems = [
@@ -3299,99 +3245,256 @@ function MorseLabWorkspace({ audioEngine }) {
           {/* Collapsible Audio & Timing Settings Drawer */}
           {audioDrawerOpen && (
             <div className="border-t border-[#141413] bg-[#EAE8E1]">
-              <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-                <div>
-                  <label
-                    htmlFor="ctrl-wpm"
-                    className="flex justify-between font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.1em] text-[#141413] mb-1.5"
-                  >
-                    <span>Character Speed</span>
-                    <span className="tabular-nums">{settings.wpm} WPM</span>
-                  </label>
-                  <input
-                    id="ctrl-wpm"
-                    type="range"
-                    min={8}
-                    max={40}
-                    value={settings.wpm}
-                    onChange={(e) => {
-                      const nextWpm = Number(e.target.value);
-                      setSettings((s) => ({
-                        ...s,
-                        wpm: nextWpm,
-                        farnsworthWpm: Math.min(s.farnsworthWpm, nextWpm),
-                      }));
-                    }}
-                    className="w-full accent-[#1D4ED8] cursor-pointer"
-                  />
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 space-y-4">
+                {/* Quick Skill-Level Presets */}
+                <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#141413]/20">
+                  <span className="font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.12em] text-[#141413]">
+                    QUICK SPEED PRESETS:
+                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {[
+                      { label: 'Beginner (15 / 8 WPM)', wpm: 15, farnsworthWpm: 8 },
+                      { label: 'Standard (18 / 14 WPM)', wpm: 18, farnsworthWpm: 14 },
+                      { label: 'Fast CW (25 / 25 WPM)', wpm: 25, farnsworthWpm: 25 },
+                    ].map((preset) => {
+                      const isActive =
+                        settings.wpm === preset.wpm &&
+                        settings.farnsworthWpm === preset.farnsworthWpm;
+                      return (
+                        <button
+                          key={preset.label}
+                          type="button"
+                          onClick={() =>
+                            setSettings((s) => ({
+                              ...s,
+                              wpm: preset.wpm,
+                              farnsworthWpm: preset.farnsworthWpm,
+                            }))
+                          }
+                          className={`min-h-[34px] px-3 py-1 border border-[#141413] font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.08em] ${TACTILE_BTN} ${
+                            isActive
+                              ? 'bg-[#141413] text-[#FAF9F6]'
+                              : 'bg-[#FAF9F6] hover:bg-[#1D4ED8] hover:text-[#FAF9F6] text-[#141413]'
+                          }`}
+                        >
+                          {preset.label}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="ctrl-farnsworth"
-                    className="flex justify-between font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.1em] text-[#141413] mb-1.5"
-                  >
-                    <span>Farnsworth Spacing</span>
-                    <span className="tabular-nums">
-                      {settings.farnsworthWpm} WPM
-                    </span>
-                  </label>
-                  <input
-                    id="ctrl-farnsworth"
-                    type="range"
-                    min={5}
-                    max={settings.wpm}
-                    value={settings.farnsworthWpm}
-                    onChange={(e) =>
-                      setSettings((s) => ({
-                        ...s,
-                        farnsworthWpm: Number(e.target.value),
-                      }))
-                    }
-                    className="w-full accent-[#1D4ED8] cursor-pointer"
-                  />
-                </div>
+                {/* Tactile Controls with Step Buttons & Plain-Language Hints */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
+                  {/* 01. Character Speed */}
+                  <div className="bg-[#FAF9F6] border border-[#141413] p-3 flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-baseline font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.08em] text-[#141413]">
+                        <label htmlFor="ctrl-wpm">Character Speed</label>
+                        <span className="text-[#1D4ED8] tabular-nums">
+                          {settings.wpm} WPM
+                        </span>
+                      </div>
+                      <p className="font-['IBM_Plex_Sans'] text-[11px] text-[#57564F] mt-0.5">
+                        Dot &amp; dash playback speed
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 mt-2.5">
+                      <button
+                        type="button"
+                        aria-label="Decrease character speed"
+                        onClick={() =>
+                          setSettings((s) => {
+                            const nextWpm = Math.max(8, s.wpm - 1);
+                            return {
+                              ...s,
+                              wpm: nextWpm,
+                              farnsworthWpm: Math.min(s.farnsworthWpm, nextWpm),
+                            };
+                          })
+                        }
+                        className={`w-8 h-8 shrink-0 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-sm font-bold ${TACTILE_BTN}`}
+                      >
+                        −
+                      </button>
+                      <input
+                        id="ctrl-wpm"
+                        type="range"
+                        min={8}
+                        max={40}
+                        value={settings.wpm}
+                        onChange={(e) => {
+                          const nextWpm = Number(e.target.value);
+                          setSettings((s) => ({
+                            ...s,
+                            wpm: nextWpm,
+                            farnsworthWpm: Math.min(s.farnsworthWpm, nextWpm),
+                          }));
+                        }}
+                        className="w-full accent-[#1D4ED8] cursor-pointer"
+                      />
+                      <button
+                        type="button"
+                        aria-label="Increase character speed"
+                        onClick={() =>
+                          setSettings((s) => ({
+                            ...s,
+                            wpm: Math.min(40, s.wpm + 1),
+                          }))
+                        }
+                        className={`w-8 h-8 shrink-0 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-sm font-bold ${TACTILE_BTN}`}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
 
-                <div>
-                  <label
-                    htmlFor="ctrl-freq"
-                    className="flex justify-between font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.1em] text-[#141413] mb-1.5"
-                  >
-                    <span>Sidetone Pitch</span>
-                    <span className="tabular-nums">{settings.freq} HZ</span>
-                  </label>
-                  <input
-                    id="ctrl-freq"
-                    type="range"
-                    min={400}
-                    max={1000}
-                    step={20}
-                    value={settings.freq}
-                    onChange={(e) =>
-                      setSettings((s) => ({
-                        ...s,
-                        freq: Number(e.target.value),
-                      }))
-                    }
-                    className="w-full accent-[#1D4ED8] cursor-pointer"
-                  />
-                </div>
+                  {/* 02. Letter Pause (Farnsworth) */}
+                  <div className="bg-[#FAF9F6] border border-[#141413] p-3 flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-baseline font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.08em] text-[#141413]">
+                        <label htmlFor="ctrl-farnsworth">Letter Pause</label>
+                        <span className="text-[#1D4ED8] tabular-nums">
+                          {settings.farnsworthWpm} WPM
+                        </span>
+                      </div>
+                      <p className="font-['IBM_Plex_Sans'] text-[11px] text-[#57564F] mt-0.5">
+                        Gap between letters (lower = longer)
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 mt-2.5">
+                      <button
+                        type="button"
+                        aria-label="Increase pause between letters"
+                        onClick={() =>
+                          setSettings((s) => ({
+                            ...s,
+                            farnsworthWpm: Math.max(5, s.farnsworthWpm - 1),
+                          }))
+                        }
+                        className={`w-8 h-8 shrink-0 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-sm font-bold ${TACTILE_BTN}`}
+                      >
+                        −
+                      </button>
+                      <input
+                        id="ctrl-farnsworth"
+                        type="range"
+                        min={5}
+                        max={settings.wpm}
+                        value={settings.farnsworthWpm}
+                        onChange={(e) =>
+                          setSettings((s) => ({
+                            ...s,
+                            farnsworthWpm: Number(e.target.value),
+                          }))
+                        }
+                        className="w-full accent-[#1D4ED8] cursor-pointer"
+                      />
+                      <button
+                        type="button"
+                        aria-label="Decrease pause between letters"
+                        onClick={() =>
+                          setSettings((s) => ({
+                            ...s,
+                            farnsworthWpm: Math.min(s.wpm, s.farnsworthWpm + 1),
+                          }))
+                        }
+                        className={`w-8 h-8 shrink-0 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-sm font-bold ${TACTILE_BTN}`}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (!settings.muted) audioEngine.stopAll();
-                      setSettings((s) => ({ ...s, muted: !s.muted }));
-                    }}
-                    className={`w-full min-h-[40px] px-3 py-2 border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.12em] ${TACTILE_BTN} ${
-                      settings.muted
-                        ? 'bg-[#B91C1C] text-[#FAF9F6]'
-                        : 'bg-[#FAF9F6] hover:bg-[#141413] hover:text-[#FAF9F6] text-[#141413]'
-                    }`}
-                  >
-                    {settings.muted ? 'Sidetone Muted' : 'Sidetone Active'}
-                  </button>
+                  {/* 03. Sidetone Pitch */}
+                  <div className="bg-[#FAF9F6] border border-[#141413] p-3 flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-baseline font-['IBM_Plex_Mono'] text-[11px] font-bold uppercase tracking-[0.08em] text-[#141413]">
+                        <label htmlFor="ctrl-freq">Sidetone Pitch</label>
+                        <span className="text-[#1D4ED8] tabular-nums">
+                          {settings.freq} HZ
+                        </span>
+                      </div>
+                      <p className="font-['IBM_Plex_Sans'] text-[11px] text-[#57564F] mt-0.5">
+                        Audio tone frequency (680 Hz std)
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 mt-2.5">
+                      <button
+                        type="button"
+                        aria-label="Lower sidetone pitch"
+                        onClick={() =>
+                          setSettings((s) => ({
+                            ...s,
+                            freq: Math.max(400, s.freq - 20),
+                          }))
+                        }
+                        className={`w-8 h-8 shrink-0 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-sm font-bold ${TACTILE_BTN}`}
+                      >
+                        −
+                      </button>
+                      <input
+                        id="ctrl-freq"
+                        type="range"
+                        min={400}
+                        max={1000}
+                        step={20}
+                        value={settings.freq}
+                        onChange={(e) =>
+                          setSettings((s) => ({
+                            ...s,
+                            freq: Number(e.target.value),
+                          }))
+                        }
+                        className="w-full accent-[#1D4ED8] cursor-pointer"
+                      />
+                      <button
+                        type="button"
+                        aria-label="Raise sidetone pitch"
+                        onClick={() =>
+                          setSettings((s) => ({
+                            ...s,
+                            freq: Math.min(1000, s.freq + 20),
+                          }))
+                        }
+                        className={`w-8 h-8 shrink-0 bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] border border-[#141413] font-['IBM_Plex_Mono'] text-sm font-bold ${TACTILE_BTN}`}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 04. Audition & Mute Controls */}
+                  <div className="bg-[#FAF9F6] border border-[#141413] p-3 flex flex-col justify-between gap-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        audioEngine.playSequence('HI', {
+                          wpm: settings.wpm,
+                          farnsworthWpm: settings.farnsworthWpm,
+                          freq: settings.freq,
+                          muted: false,
+                        })
+                      }
+                      className={`w-full min-h-[38px] px-3 py-1.5 bg-[#141413] hover:bg-[#1D4ED8] text-[#FAF9F6] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.1em] ${TACTILE_BTN}`}
+                    >
+                      Test Tone (HI)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!settings.muted) audioEngine.stopAll();
+                        setSettings((s) => ({ ...s, muted: !s.muted }));
+                      }}
+                      className={`w-full min-h-[38px] px-3 py-1.5 border border-[#141413] font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.1em] ${TACTILE_BTN} ${
+                        settings.muted
+                          ? 'bg-[#B91C1C] text-[#FAF9F6]'
+                          : 'bg-[#F4F3EE] hover:bg-[#141413] hover:text-[#FAF9F6] text-[#141413]'
+                      }`}
+                    >
+                      {settings.muted ? 'Sidetone Muted' : 'Sidetone Active'}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

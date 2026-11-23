@@ -11,6 +11,7 @@
     <img src="https://img.shields.io/badge/TIMING-PARIS_STANDARD-141413?style=flat-square&labelColor=EAE8E1" alt="PARIS Timing Standard" />
     <img src="https://img.shields.io/badge/AUDIO-WEB_AUDIO_API-15803D?style=flat-square&labelColor=141413" alt="Web Audio API" />
     <img src="https://img.shields.io/badge/LOGBOOK-HMAC--SHA256-141413?style=flat-square&labelColor=EAE8E1" alt="HMAC-SHA256 Logbook" />
+    <img src="https://img.shields.io/badge/HOSTING-VERCEL_EDGE-141413?style=flat-square&labelColor=EAE8E1" alt="Hosted on Vercel" />
   </p>
 </div>
 
@@ -20,7 +21,7 @@
 
 **MorseLab** is a precision, browser-based Continuous-Wave (CW) Morse code transceiver, spaced-repetition trainer, and cryptographically signed practice logbook modeled after archival Swiss technical manuals and classic Braun test instruments.
 
-Instead of gamified clutter or bloated third-party libraries, MorseLab synthesizes pure sine-wave audio sidetones directly in the browser using the Web Audio API with 5ms exponential gain envelopes, eliminating acoustic clicks while maintaining exact **PARIS** (`1200 / WPM`) and **Farnsworth** timing intervals. Everything runs locally in the browser with zero external tracking or backend dependencies.
+Instead of gamified clutter or bloated third-party audio libraries, MorseLab synthesizes pure sine-wave sidetones directly in the browser using the Web Audio API with 5ms exponential gain envelopes—eliminating acoustic clicks while maintaining exact **PARIS** (`1200 / WPM`) and **Farnsworth** timing intervals. Everything runs locally in your browser with zero external tracking, zero ads, and zero backend database dependencies.
 
 ---
 
@@ -28,13 +29,13 @@ Instead of gamified clutter or bloated third-party libraries, MorseLab synthesiz
 
 MorseLab started from my personal interest in learning Morse code and wanting a tool that treats telegraphy like a real instrument rather than a casual mobile game.
 
-Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, cluttered screens, or mandatory cloud accounts. I wanted a distraction-free station that serves:
+Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, cluttered screens, or mandatory cloud accounts. I wanted a distraction-free station built for:
 
-* **Everyday Learners & Hobbyists:** Anyone curious about International Morse code who wants to build real acoustic reflex recognition rather than slowly counting dots and dashes through structured Koch-method drills and progressive straight-key stages.
+* **Everyday Learners & Hobbyists:** Anyone curious about International Morse code who wants to build real acoustic reflex recognition—rather than slowly counting dots and dashes—through structured Koch-method drills and progressive straight-key stages.
 * **Amateur Radio (Ham) & Emergency Communicators:** Operators preparing for CW band contacts, field day operations, or backup off-grid communication drills where clean Farnsworth spacing and straight-key cadence matter.
 * **Military & Tactical Signal Trainees:** Service members, cadets, and signal specialists looking for a lightweight, zero-tracking, self-hostable practice terminal for ear copy, optical signal lamp flashing, and distress callsign drills.
 
-> *Educational & Training Notice:* MorseLab is a simulation and practice utility—not certified maritime, aviation, or military distress equipment.
+> *Educational & Training Notice:* MorseLab is an educational simulation and practice utility—not certified maritime, aviation, or military distress equipment.
 
 ---
 
@@ -42,11 +43,12 @@ Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, clu
 
 | Module | Description |
 | :--- | :--- |
-| **01. Bidirectional Translator** | Real-time Plaintext-to-Morse and Morse-to-Plaintext conversion with high-contrast visual signal tape, live element highlighting, and 4-second auto-dismissing clipboard copy confirmation. |
+| **01. Bidirectional Translator** | Real-time Plaintext-to-Morse and Morse-to-Plaintext conversion with high-contrast visual signal tape, live keying readout, and 4-second auto-dismissing clipboard confirmation. |
 | **02. Ear Training & Signal Lamp** | Session-gated 10-character Koch curriculum drills supporting both sidetone audio copy and silent optical carrier flashes, promoting automatically at 85%+ accuracy. |
 | **02. Manual Straight Key** | 10-stage progressive keying simulator (`E`, `T`, `I`, `A`, `N`, `M`, `S`, `O`, `HI`, `73`) using Spacebar or touch contact with real-time paper-tape decoding. |
 | **02. Daily Intercepts & SOS** | Simulated HF weather and maritime radio broadcasts alongside a 5-callsign consecutive emergency beacon streak challenge. |
 | **03. Logbook & Mastery Matrix** | Interactive 36-character (`A–Z`, `0–9`) accuracy matrix with one-tap sidetone auditioning, JSON export, and keyed `HMAC-SHA256` local storage verification. |
+| **Audio & Timing Console** | Collapsible transceiver drawer with one-tap skill presets (*Beginner*, *Standard*, *Fast CW*), Character Speed (8–40 WPM), Farnsworth Letter Pause, Sidetone Pitch (400–1000 Hz), and live tone testing. |
 
 ---
 
@@ -56,31 +58,51 @@ Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, clu
 | :---: | :---: | :---: |
 | <img src="./Screenshot%202026-11-23%20072751.png" alt="MorseLab Bidirectional Translator" width="260" /> | <img src="./Screenshot%202026-11-23%20072740.png" alt="MorseLab Koch Operator Training" width="260" /> | <img src="./Screenshot%202026-11-23%20072729.png" alt="MorseLab Operator Logbook & Matrix" width="260" /> |
 
-*(Note: If you move those screenshots into a `public/shots/` folder later, update the paths above to `./public/shots/...`.)*
+*(Tip: If you organize your screenshots into a `public/shots/` folder later, update the image paths above to `./public/shots/...`.)*
 
 ---
 
-## Local Development & Production Server
+## Tech Stack & Architecture
 
-### Run in Development Mode
+MorseLab is engineered as a lightweight, zero-backend client application with optional standalone Node.js hosting:
+
+| Layer | Technology | Role in MorseLab |
+| :--- | :--- | :--- |
+| **UI & Build Tooling** | **React + Vite** | Component architecture, fast ESM bundling, and optimized static production builds (`dist/`). |
+| **Styling & Typography** | **Tailwind CSS + IBM Plex / Newsreader** | High-contrast Swiss archival editorial layout with tactile button states and zero-beat vernier graphics. |
+| **DSP Audio Synthesis** | **Web Audio API** | Real-time sine-wave oscillator synthesis with 5ms exponential ramps for click-free sidetones. |
+| **Local Persistence & Integrity** | **Web Crypto API (`HMAC-SHA256`) + `localStorage`** | Signs logbook records locally in the browser with schema validation and `event.isTrusted` gesture checks—no remote user database required. |
+| **Edge & Server Hosting** | **Vercel (`vercel.json`) + Node.js (`server.js`)** | Deployed live on Vercel with strict security headers and SPA rewrites, plus a zero-dependency Node server for self-hosting. |
+
+---
+
+## Hosting, Local Development & Self-Hosting
+
+### Live Production Deployment (Vercel)
+MorseLab is hosted live on Vercel at **[morselab-station.vercel.app](https://morselab-station.vercel.app)**.
+* Every push to the `main` branch automatically builds the Vite bundle (`dist/`) and deploys to Vercel's edge network.
+* `vercel.json` enforces Content Security Policy (CSP), `X-Frame-Options`, `Referrer-Policy`, and clean Single-Page Application (SPA) routing.
+
+### Run Locally in Development Mode
 ```bash
+git clone [https://github.com/ZRayce/morselab.git](https://github.com/ZRayce/morselab.git)
+cd morselab
 npm install
 npm run dev
 ```
-Build & Run Production Server
+
+Build & Run Standalone Production Server
+
 ```Bash
 npm run build
 npm start
 ```
-server.js serves the compiled dist/ bundle with path-traversal protection, SPA routing, Content Security Policy headers, and optional MAINTENANCE_MODE=true support.
 
-vercel.json mirrors the security headers and SPA fallback configuration for edge hosting on Vercel.
+server.js is a zero-dependency Node.js HTTP server that serves the compiled dist/ bundle with path-traversal protection, security headers, SPA fallback routing, and optional MAINTENANCE_MODE=true support.
 
-Author
+### Author
 Name: Rayce Manuel E. Fillon
 
 Email: zerorayce@gmail.com
 
 LinkedIn: linkedin.com/in/raycefillon
-
-GitHub: github.com/ZRayce/morselab
