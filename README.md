@@ -44,7 +44,7 @@ Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, clu
 
 <div align="center">
 
-| `01` · Bidirectional Translator | `02` · Koch Operator Training | `03` · Operator Logbook & Matrix |
+| `03` · Operator Logbook & Matrix  | `02` · Koch Operator Training | `01` · Bidirectional Translator |
 | :---: | :---: | :---: |
 | <img src="./public/shots/Screenshot%202026-11-23%20185852.png" alt="MorseLab Bidirectional Translator" width="275" /> | <img src="./public/shots/Screenshot%202026-11-23%20185902.png" alt="MorseLab Koch Operator Training" width="275" /> | <img src="./public/shots/Screenshot%202026-11-23%20185915.png" alt="MorseLab Operator Logbook and Matrix" width="275" /> |
 
