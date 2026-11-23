@@ -2,7 +2,7 @@
   <img src="./public/logo.svg" alt="MorseLab Geometric Telegraph Logo" width="88" height="88" />
   <h1>MORSELAB</h1>
   <p><strong>Continuous-Wave (CW) Telegraph Manual, Koch Trainer &amp; Signed Operator Logbook</strong></p>
-  <p><code>— · — · &nbsp; — — · — &nbsp;&nbsp; · — · — &nbsp; · — · · &nbsp; · — &nbsp; — · · ·</code></p>
+  <p><code>—·—· &nbsp; ——·— &nbsp;&nbsp; ·—·— &nbsp; ·—·· &nbsp; ·— &nbsp; —···</code></p>
 
   <p>
     <a href="https://morselab-station.vercel.app">
