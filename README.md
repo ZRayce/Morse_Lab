@@ -32,11 +32,11 @@ MorseLab started from my personal interest in learning Morse code and wanting a 
 
 Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, cluttered screens, or mandatory cloud accounts. I wanted a distraction-free station built for:
 
-* **Everyday Learners & Hobbyists:** Anyone curious about International Morse code who wants to build real acoustic reflex recognition—rather than slowly counting dots and dashes—through structured Koch-method drills and progressive straight-key stages.
+* **Everyday Learners & Hobbyists:** Anyone curious about International Morse code who wants to build real acoustic reflex recognition rather than slowly counting dots and dashes through structured Koch-method drills and progressive straight-key stages.
 * **Amateur Radio (Ham) & Emergency Communicators:** Operators preparing for CW band contacts, field day operations, or backup off-grid communication drills where clean Farnsworth spacing and straight-key cadence matter.
 * **Military & Tactical Signal Trainees:** Service members, cadets, and signal specialists looking for a lightweight, zero-tracking, self-hostable practice terminal for ear copy, optical signal lamp flashing, and distress callsign drills.
 
-> **Educational & Training Notice:** MorseLab is an educational simulation and practice utility-not certified maritime, aviation, or military distress equipment.
+> **Educational & Training Notice:** MorseLab is an educational simulation and practice utility, not certified maritime, aviation, or military distress equipment.
 
 ---
 
