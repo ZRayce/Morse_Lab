@@ -46,7 +46,7 @@ Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, clu
 
 | `01` · Bidirectional Translator | `02` · Koch Operator Training | `03` · Operator Logbook & Matrix |
 | :---: | :---: | :---: |
-| <img src="./Screenshot%202026-11-23%20185852.png" alt="MorseLab Bidirectional Translator" width="275" /> | <img src="./Screenshot%202026-11-23%20185902.png" alt="MorseLab Koch Operator Training" width="275" /> | <img src="./Screenshot%202026-11-23%20185915.png" alt="MorseLab Operator Logbook and Matrix" width="275" /> |
+| <img src="./public/shots/Screenshot%202026-11-23%20185852.png" alt="MorseLab Bidirectional Translator" width="275" /> | <img src="./public/shots/Screenshot%202026-11-23%20185902.png" alt="MorseLab Koch Operator Training" width="275" /> | <img src="./public/shots/Screenshot%202026-11-23%20185915.png" alt="MorseLab Operator Logbook and Matrix" width="275" /> |
 
 </div>
 
@@ -81,8 +81,16 @@ MorseLab is engineered as a lightweight, zero-backend client application with op
 
 ## Hosting, Local Development & Self-Hosting
 
+<div align="center">
+
 ### Live Production Deployment (Vercel)
-MorseLab is hosted live on Vercel at **[morselab-station.vercel.app](https://morselab-station.vercel.app)**.
+
+**MorseLab is hosted live on Vercel at [morselab-station.vercel.app](https://morselab-station.vercel.app)**
+
+[![Launch Live Station](https://img.shields.io/badge/LAUNCH_LIVE_STATION-MORSELAB--STATION.VERCEL.APP-1D4ED8?style=for-the-badge&labelColor=141413)](https://morselab-station.vercel.app)
+
+</div>
+
 * Every push to the `main` branch automatically builds the Vite bundle (`dist/`) and deploys to Vercel's edge network.
 * `vercel.json` enforces Content Security Policy (CSP), `X-Frame-Options`, `Referrer-Policy`, and clean Single-Page Application (SPA) routing.
 
@@ -92,12 +100,6 @@ git clone [https://github.com/ZRayce/morselab.git](https://github.com/ZRayce/mor
 cd morselab
 npm install
 npm run dev
-```
-
-### Build & Run Standalone Production Server
-```bash
-npm run build
-npm start
 ```
 
 server.js is a zero-dependency Node.js HTTP server that serves the compiled dist/ bundle with path-traversal protection, security headers, SPA fallback routing, and optional MAINTENANCE_MODE=true support.
@@ -114,7 +116,7 @@ server.js is a zero-dependency Node.js HTTP server that serves the compiled dist
 
 <br />
 
-<img src="./public/ww2-morse-meme.gif" alt="Funny WW2 telegraph operator meme GIF" width="320" />
+<img src="./public/shots/columbina-i'm-going-to-touch-you(dont-mind-the-name).gif" alt="Funny WW2 telegraph operator meme GIF" width="320" />
 <br />
 <sub><i>Me at 2 AM trying to figure out if that was a Dah or a really long Dit.</i></sub>
 
