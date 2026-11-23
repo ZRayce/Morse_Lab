@@ -119,9 +119,6 @@ server.js is a zero-dependency Node.js HTTP server that serves the compiled dist
   <a href="https://www.linkedin.com/in/raycefillon">
     <img src="https://img.shields.io/badge/LINKEDIN-RAYCEFILLON-1D4ED8?style=for-the-badge&labelColor=141413&logo=linkedin&logoColor=FAF9F6" alt="Rayce Fillon on LinkedIn" />
   </a>
-  <a href="https://github.com/ZRayce/morselab">
-    <img src="https://img.shields.io/badge/GITHUB-ZRAYCE%2FMORSELAB-EAE8E1?style=for-the-badge&labelColor=141413&color=EAE8E1&logo=github&logoColor=141413" alt="ZRayce on GitHub" />
-  </a>
 </p>
 
 <br />
