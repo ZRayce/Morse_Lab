@@ -114,10 +114,10 @@ server.js is a zero-dependency Node.js HTTP server that serves the compiled dist
 
 <p>
   <a href="mailto:zerorayce@gmail.com">
-    <img src="https://img.shields.io/badge/EMAIL-ZERORAYCE%40GMAIL.COM-FAF9F6?style=for-the-badge&labelColor=141413&color=FAF9F6&logo=gmail&logoColor=141413" alt="Email Rayce Manuel E. Fillon" />
+    <img src="https://img.shields.io/badge/MAIL-ZERORAYCE%40GMAIL.COM-141413?style=flat-square&labelColor=EAE8E1" alt="Email Rayce Manuel E. Fillon" />
   </a>
   <a href="https://www.linkedin.com/in/raycefillon">
-    <img src="https://img.shields.io/badge/LINKEDIN-RAYCEFILLON-1D4ED8?style=for-the-badge&labelColor=141413&logo=linkedin&logoColor=FAF9F6" alt="Rayce Fillon on LinkedIn" />
+    <img src="https://img.shields.io/badge/IN-RAYCEFILLON-1D4ED8?style=flat-square&labelColor=141413" alt="Rayce Fillon on LinkedIn" />
   </a>
 </p>
 
