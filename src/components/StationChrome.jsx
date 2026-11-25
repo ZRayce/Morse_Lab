@@ -156,9 +156,14 @@ export function StationBootScreen({ onComplete }) {
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (prefersReducedMotion) {
-      setProgress(100);
+      const progressTimer = window.setTimeout(() => {
+        setProgress(100);
+      }, 0);
       const quickTimer = window.setTimeout(finishBoot, 150);
-      return () => window.clearTimeout(quickTimer);
+      return () => {
+        window.clearTimeout(progressTimer);
+        window.clearTimeout(quickTimer);
+      };
     }
 
     let rafId = 0;

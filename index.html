@@ -21,6 +21,7 @@
       property="og:description"
       content="Browser-based Continuous-Wave (CW) Morse code transceiver, Koch curriculum trainer, straight-key simulator, and local practice logbook."
     />
+    <meta property="og:image" content="https://morselab-station.vercel.app/favicon.svg" />
 
     <!-- Twitter / X Summary Card -->
     <meta name="twitter:card" content="summary" />
@@ -29,6 +30,7 @@
       name="twitter:description"
       content="Browser-based Continuous-Wave (CW) Morse code transceiver, Koch curriculum trainer, straight-key simulator, and local practice logbook."
     />
+    <meta name="twitter:image" content="https://morselab-station.vercel.app/favicon.svg" />
 
     <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,6 +41,9 @@
     />
   </head>
   <body>
+    <noscript>
+      MorseLab requires JavaScript to run the Web Audio CW synthesizer, Koch trainer, and local operator logbook.
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

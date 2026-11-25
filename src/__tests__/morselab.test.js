@@ -1,4 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { MorseAudioEngine } from '../lib/audioEngine.js';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   MORSE_MAP,
   REVERSE_MORSE_MAP,
@@ -298,3 +299,140 @@ describe('Local Storage Integrity & Corruption Recovery', () => {
     expect(storage.getItem(STORAGE_KEY)).toBeNull();
   });
 });
+
+describe('MorseAudioEngine Lifecycle & Playback', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  it('handles unavailable AudioContext gracefully while notifying transmit state', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.stubGlobal('window', {});
+
+    const engine = new MorseAudioEngine();
+    const states = [];
+    const blockedStates = [];
+    engine.subscribe((s) => states.push(s));
+    engine.subscribeBlocked((b) => blockedStates.push(b));
+
+    const completed = await engine.playSequence('E', { wpm: 60, muted: false });
+
+    expect(completed).toBe(true);
+    expect(states).toContain(true);
+    expect(states[states.length - 1]).toBe(false);
+    expect(blockedStates).toEqual([]);
+  });
+
+  it('resumes suspended AudioContext and updates blocked state when blocked or running', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const resumeSpy = vi.fn(async function resume() {
+      this.state = 'running';
+    });
+
+    const makeNode = () => ({
+      type: 'sine',
+      frequency: { setValueAtTime: vi.fn() },
+      gain: {
+        value: 0.22,
+        cancelScheduledValues: vi.fn(),
+        setValueAtTime: vi.fn(),
+        exponentialRampToValueAtTime: vi.fn(),
+      },
+      connect: vi.fn(),
+      disconnect: vi.fn(),
+      start: vi.fn(),
+      stop: vi.fn(function stop() {
+        if (typeof this.onended === 'function') this.onended();
+      }),
+      onended: null,
+    });
+
+    const mockCtx = {
+      state: 'suspended',
+      currentTime: 1,
+      destination: {},
+      resume: resumeSpy,
+      createOscillator: vi.fn(() => makeNode()),
+      createGain: vi.fn(() => makeNode()),
+    };
+
+    vi.stubGlobal('window', {
+      AudioContext: vi.fn(function AudioContext() {
+        return mockCtx;
+      }),
+    });
+
+    const engine = new MorseAudioEngine();
+    const blockedStates = [];
+    engine.subscribeBlocked((b) => blockedStates.push(b));
+
+    await engine.startManualTone(680, false);
+    expect(resumeSpy).toHaveBeenCalledTimes(1);
+    expect(mockCtx.state).toBe('running');
+    expect(engine.isAudioBlocked).toBe(false);
+    expect(blockedStates).toEqual([]);
+    expect(engine.isTransmitting).toBe(true);
+
+    engine.stopManualTone();
+    expect(engine.isTransmitting).toBe(false);
+  });
+});
+
+it('cancels active sequence playback and clears pending timers on stopAll', async () => {
+  vi.useFakeTimers();
+  vi.stubGlobal('window', {});
+
+  const engine = new MorseAudioEngine();
+  const { ditMs } = calculateMorseTiming(12, 12);
+  const promise = engine.playSequence('SOS', { wpm: 12, muted: true });
+
+  await vi.advanceTimersByTimeAsync(Math.max(20, Math.floor(ditMs / 2)));
+  expect(engine.pendingTimers.size).toBeGreaterThan(0);
+
+  engine.stopAll();
+  expect(engine.pendingTimers.size).toBe(0);
+  expect(engine.isTransmitting).toBe(false);
+
+  const result = await promise;
+  expect(result).toBe(false);
+});
+
+it('triggers 5-second watchdog automatically during manual tone', async () => {
+    vi.useFakeTimers();
+    const oscNode = {
+      type: 'sine',
+      frequency: { setValueAtTime: vi.fn() },
+      gain: {
+        value: 0.22,
+        cancelScheduledValues: vi.fn(),
+        setValueAtTime: vi.fn(),
+        exponentialRampToValueAtTime: vi.fn(),
+      },
+      connect: vi.fn(),
+      disconnect: vi.fn(),
+      start: vi.fn(),
+      stop: vi.fn(),
+      onended: null,
+    };
+    const mockCtx = {
+      state: 'running',
+      currentTime: 0,
+      destination: {},
+      resume: vi.fn(async () => {}),
+      createOscillator: vi.fn(() => oscNode),
+      createGain: vi.fn(() => oscNode),
+    };
+    vi.stubGlobal('window', {
+      AudioContext: vi.fn(function AudioContext() {
+        return mockCtx;
+      }),
+    });
+
+    const engine = new MorseAudioEngine();
+    await engine.startManualTone(700, false);
+    expect(engine.isTransmitting).toBe(true);
+
+    await vi.advanceTimersByTimeAsync(5000);
+    expect(engine.isTransmitting).toBe(false);
+  });
