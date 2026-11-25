@@ -1,7 +1,7 @@
 <div align="center">
   <img src="./public/logo.svg" alt="MorseLab Geometric Telegraph Logo" width="88" height="88" />
   <h1>MORSELAB</h1>
-  <p><strong>Continuous-Wave (CW) Telegraph Manual, Koch Trainer &amp; Signed Operator Logbook</strong></p>
+  <p><strong>Continuous-Wave (CW) Telegraph Manual, Koch Trainer &amp; Local Operator Logbook</strong></p>
   <p><code>— · — · &nbsp; — — · — &nbsp;&nbsp; · — · — &nbsp; · — · · &nbsp; · — &nbsp; — · · ·</code></p>
 
   <p>
@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/ITU--R-M.1677--1-141413?style=flat-square&labelColor=EAE8E1" alt="ITU-R M.1677-1 Standard" />
     <img src="https://img.shields.io/badge/TIMING-PARIS_STANDARD-141413?style=flat-square&labelColor=EAE8E1" alt="PARIS Timing Standard" />
     <img src="https://img.shields.io/badge/AUDIO-WEB_AUDIO_API-15803D?style=flat-square&labelColor=141413" alt="Web Audio API" />
-    <img src="https://img.shields.io/badge/LOGBOOK-HMAC--SHA256-141413?style=flat-square&labelColor=EAE8E1" alt="HMAC-SHA256 Logbook" />
+    <img src="https://img.shields.io/badge/LOGBOOK-LOCAL_INTEGRITY-141413?style=flat-square&labelColor=EAE8E1" alt="Local Logbook Integrity" />
     <img src="https://img.shields.io/badge/HOSTING-VERCEL_EDGE-141413?style=flat-square&labelColor=EAE8E1" alt="Hosted on Vercel" />
   </p>
 </div>
@@ -20,9 +20,9 @@
 
 ## Overview
 
-**MorseLab** is a precision, browser-based Continuous-Wave (CW) Morse code transceiver, spaced-repetition trainer, and cryptographically signed practice logbook modeled after archival Swiss technical manuals and classic Braun test instruments.
+**MorseLab** is a precision, browser-based Continuous-Wave (CW) Morse code transceiver, spaced-repetition trainer, and local practice logbook modeled after archival Swiss technical manuals and classic Braun test instruments.
 
-Instead of gamified clutter or bloated third-party audio libraries, MorseLab synthesizes pure sine-wave sidetones directly in the browser using the Web Audio API with 5ms exponential gain envelopes—eliminating acoustic clicks while maintaining exact **PARIS** (`1200 / WPM`) and **Farnsworth** timing intervals. Everything runs locally in your browser with zero external tracking, zero ads, and zero backend database dependencies.
+Instead of gamified clutter or bloated third-party audio libraries, MorseLab synthesizes pure sine-wave sidetones directly in the browser using the Web Audio API with 5ms exponential gain envelopes eliminating acoustic clicks while maintaining exact **PARIS** (`1200 / WPM`) and **Farnsworth** timing intervals. Everything runs locally in your browser with zero external tracking, zero ads, and zero backend database dependencies.
 
 ---
 
@@ -32,11 +32,11 @@ MorseLab started from my personal interest in learning Morse code and wanting a 
 
 Most online Morse tools rely on pre-recorded MP3 clips with sluggish timing, cluttered screens, or mandatory cloud accounts. I wanted a distraction-free station built for:
 
-* **Everyday Learners & Hobbyists:** Anyone curious about International Morse code who wants to build real acoustic reflex recognition rather than slowly counting dots and dashes through structured Koch-method drills and progressive straight-key stages.
+- **Everyday Learners & Hobbyists:** Anyone curious about International Morse code who wants to build real acoustic reflex recognition rather than slowly counting dots and dashes through structured Koch-method drills and progressive straight-key stages.
 
-* **Amateur Radio (Ham) & Emergency Communicators:** Operators preparing for CW band contacts, field day operations, or backup off-grid communication drills where clean Farnsworth spacing and straight-key cadence matter.
+- **Amateur Radio (Ham) & Emergency Communicators:** Operators preparing for CW band contacts, field day operations, or backup off-grid communication drills where clean Farnsworth spacing and straight-key cadence matter.
 
-* **Military & Tactical Signal Trainees:** Service members, cadets, and signal specialists looking for a lightweight, zero-tracking, self-hostable practice terminal for ear copy, optical signal lamp flashing, and distress callsign drills.
+- **Military & Tactical Signal Trainees:** Service members, cadets, and signal specialists looking for a lightweight, zero-tracking, self-hostable practice terminal for ear copy, optical signal lamp flashing, and distress callsign drills.
 
 > **Educational & Training Notice:** MorseLab is an educational simulation and practice utility, not certified maritime, aviation, or military distress equipment.
 
@@ -73,10 +73,10 @@ MorseLab is engineered as a lightweight, zero-backend client application with op
 
 | Layer | Technology | Role in MorseLab |
 | :--- | :--- | :--- |
-| **UI & Build Tooling** | **React + Vite** | Component architecture, fast ESM bundling, and optimized static production builds (`dist/`). |
-| **Styling & Typography** | **Tailwind CSS + IBM Plex / Newsreader** | High-contrast Swiss archival editorial layout with tactile button states and zero-beat vernier graphics. |
-| **DSP Audio Synthesis** | **Web Audio API** | Real-time sine-wave oscillator synthesis with 5ms exponential ramps for click-free sidetones. |
-| **Local Persistence & Integrity** | **Web Crypto API (`HMAC-SHA256`) + `localStorage`** | Signs logbook records locally in the browser with schema validation and `event.isTrusted` gesture checks-no remote user database required. |
+| **UI & Build Tooling** | **React 19 + Vite + Vitest** | Modular component & codec architecture (`src/lib/`, `src/components/`), unit tests (`npm test`), and static production builds (`dist/`). |
+| **Styling & Typography** | **Tailwind CSS + IBM Plex / Newsreader** | High-contrast Swiss archival editorial layout with tactile button states, focus rings, and zero-beat vernier graphics. |
+| **DSP Audio Synthesis** | **Web Audio API** | Real-time sine-wave oscillator synthesis with 5ms exponential ramps and node cleanup for click-free sidetones. |
+| **Local Persistence & Integrity** | **Web Crypto Checksum + `localStorage`** | Stores logbook progress locally with schema validation, `event.isTrusted` gesture checks, and corruption detection—no remote user database required. |
 | **Edge & Server Hosting** | **Vercel (`vercel.json`) + Node.js (`server.js`)** | Deployed live on Vercel with strict security headers and SPA rewrites, plus a zero-dependency Node server for self-hosting. |
 
 ---
@@ -93,14 +93,16 @@ MorseLab is engineered as a lightweight, zero-backend client application with op
 
 </div>
 
-* Every push to the `main` branch automatically builds the Vite bundle (`dist/`) and deploys to Vercel's edge network.
-* `vercel.json` enforces Content Security Policy (CSP), `X-Frame-Options`, `Referrer-Policy`, and clean Single-Page Application (SPA) routing.
+- Every push to the `main` branch automatically builds the Vite bundle (`dist/`) and deploys to Vercel's edge network.
+- `vercel.json` enforces Content Security Policy (CSP), `X-Frame-Options`, `Referrer-Policy`, and clean Single-Page Application (SPA) routing.
 
 ### Run Locally in Development Mode
 ```bash
 git clone [https://github.com/ZRayce/morselab.git](https://github.com/ZRayce/morselab.git)
 cd morselab
 npm install
+npm test
+npm run lint
 npm run dev
 ```
 
