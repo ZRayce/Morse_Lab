@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DIST_DIR = path.join(__dirname, 'dist');
+const DIST_DIR = path.resolve(__dirname, 'dist');
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = '0.0.0.0';
 const MAINTENANCE = process.env.MAINTENANCE_MODE === 'true';
@@ -27,7 +27,7 @@ const MIME_TYPES = {
 
 const SECURITY_HEADERS = {
   'Content-Security-Policy':
-    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';",
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';",
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -64,16 +64,30 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  const safeSuffix = path.normalize(decodedPath).replace(/^(\.\.(\/|\\|$))+/, '');
-  let filePath = path.join(DIST_DIR, safeSuffix === '/' ? 'index.html' : safeSuffix);
+  const relativeRequestPath = decodedPath.replace(/^\/+/, '');
+  let filePath = path.resolve(
+    DIST_DIR,
+    relativeRequestPath === '' ? 'index.html' : relativeRequestPath
+  );
 
-  if (!filePath.startsWith(DIST_DIR)) {
+  if (filePath !== DIST_DIR && !filePath.startsWith(DIST_DIR + path.sep)) {
     res.writeHead(403, SECURITY_HEADERS);
     res.end('403 Forbidden');
     return;
   }
 
-  if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+  const requestedExt = path.extname(filePath).toLowerCase();
+  const exists = fs.existsSync(filePath) && !fs.statSync(filePath).isDirectory();
+
+  if (!exists) {
+    if (requestedExt && requestedExt !== '.html') {
+      res.writeHead(404, {
+        ...SECURITY_HEADERS,
+        'Content-Type': 'text/plain; charset=utf-8',
+      });
+      res.end('404 Not Found');
+      return;
+    }
     filePath = path.join(DIST_DIR, 'index.html');
   }
 
