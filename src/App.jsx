@@ -1216,21 +1216,30 @@ function LogbookView({
   const [confirmPurge, setConfirmPurge] = useState(false);
   const [auditioningChar, setAuditioningChar] = useState(null);
 
-  const totalAttempts = Object.values(logbook.stats).reduce(
-    (sum, s) => sum + s.attempts,
-    0
-  );
-  const totalCorrect = Object.values(logbook.stats).reduce(
-    (sum, s) => sum + s.correct,
-    0
-  );
-  const overallAccuracy =
-    totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+  useEffect(() => {
+    if (!confirmPurge) return undefined;
+    const timer = setTimeout(() => setConfirmPurge(false), 5000);
+    return () => clearTimeout(timer);
+  }, [confirmPurge]);
 
-  const masteredCount = MATRIX_CHARACTERS.filter((ch) => {
-    const s = logbook.stats[ch];
-    return s && s.attempts >= 3 && s.correct / s.attempts >= 0.85;
-  }).length;
+  const { totalAttempts, overallAccuracy, masteredCount } = useMemo(() => {
+    let attempts = 0;
+    let correct = 0;
+    for (const s of Object.values(logbook.stats)) {
+      attempts += s.attempts;
+      correct += s.correct;
+    }
+    const accuracy = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
+    const mastered = MATRIX_CHARACTERS.filter((ch) => {
+      const s = logbook.stats[ch];
+      return s && s.attempts >= 3 && s.correct / s.attempts >= 0.85;
+    }).length;
+    return {
+      totalAttempts: attempts,
+      overallAccuracy: accuracy,
+      masteredCount: mastered,
+    };
+  }, [logbook.stats]);
 
   const handleExportJson = async () => {
     const payload = JSON.stringify(
@@ -1616,6 +1625,17 @@ function MorseLabWorkspace({ audioEngine }) {
     setLogbook(createDefaultLogbook());
   }, []);
 
+  const selectTab = useCallback(
+    (tabId) => {
+      audioEngine.stopAll();
+      setActiveTab(tabId);
+      if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    [audioEngine]
+  );
+
   if (!isOnline) {
     return (
       <SystemFaultView
@@ -1650,6 +1670,13 @@ function MorseLabWorkspace({ audioEngine }) {
 
   return (
     <div className="min-h-[100dvh] bg-[#F4F3EE] text-[#141413] flex flex-col justify-between">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#141413] focus:text-[#FAF9F6] focus:font-['IBM_Plex_Mono'] focus:text-xs focus:font-bold focus:uppercase"
+      >
+        Skip to main content
+      </a>
+
       {bannerMessage && (
         <div
           key={bannerKey}
@@ -1691,7 +1718,7 @@ function MorseLabWorkspace({ audioEngine }) {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
             <button
               type="button"
-              onClick={() => setActiveTab('translate')}
+              onClick={() => selectTab('translate')}
               className={`flex items-center gap-3 text-left ${TACTILE_BTN}`}
             >
               <MorseLabLogo size={28} />
@@ -1714,7 +1741,7 @@ function MorseLabWorkspace({ audioEngine }) {
                   key={item.id}
                   type="button"
                   aria-current={activeTab === item.id ? 'page' : undefined}
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => selectTab(item.id)}
                   className={`min-h-[40px] px-3 sm:px-4 py-2 border font-['IBM_Plex_Mono'] text-xs font-bold uppercase tracking-[0.1em] ${TACTILE_BTN} ${
                     activeTab === item.id
                       ? 'bg-[#141413] text-[#FAF9F6] border-[#141413]'
@@ -2061,7 +2088,7 @@ function MorseLabWorkspace({ audioEngine }) {
           </div>
         )}
 
-        <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+        <main id="main-content" className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
           {activeTab === 'translate' && (
             <TranslateView
               audioEngine={audioEngine}
@@ -2087,6 +2114,15 @@ function MorseLabWorkspace({ audioEngine }) {
               onPurgeLogbook={handlePurgeLogbook}
               showBanner={showBanner}
             />
+          )}
+          {activeTab === 'manual' && (
+            <ManualView onBack={() => selectTab('translate')} />
+          )}
+          {activeTab === 'terms' && (
+            <TermsView onBack={() => selectTab('translate')} />
+          )}
+          {activeTab === 'privacy' && (
+            <PrivacyView onBack={() => selectTab('translate')} />
           )}
         </main>
       </div>
@@ -2151,7 +2187,7 @@ function MorseLabWorkspace({ audioEngine }) {
             <button
               type="button"
               aria-current={activeTab === 'manual' ? 'page' : undefined}
-              onClick={() => setActiveTab('manual')}
+              onClick={() => selectTab('manual')}
               className={`${TACTILE_BTN} ${
                 activeTab === 'manual'
                   ? 'text-[#1D4ED8] font-bold underline'
@@ -2163,7 +2199,7 @@ function MorseLabWorkspace({ audioEngine }) {
             <button
               type="button"
               aria-current={activeTab === 'terms' ? 'page' : undefined}
-              onClick={() => setActiveTab('terms')}
+              onClick={() => selectTab('terms')}
               className={`${TACTILE_BTN} ${
                 activeTab === 'terms'
                   ? 'text-[#1D4ED8] font-bold underline'
@@ -2175,7 +2211,7 @@ function MorseLabWorkspace({ audioEngine }) {
             <button
               type="button"
               aria-current={activeTab === 'privacy' ? 'page' : undefined}
-              onClick={() => setActiveTab('privacy')}
+              onClick={() => selectTab('privacy')}
               className={`${TACTILE_BTN} ${
                 activeTab === 'privacy'
                   ? 'text-[#1D4ED8] font-bold underline'
@@ -2186,22 +2222,6 @@ function MorseLabWorkspace({ audioEngine }) {
             </button>
           </nav>
         </div>
-
-        {(activeTab === 'manual' ||
-          activeTab === 'terms' ||
-          activeTab === 'privacy') && (
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10">
-            {activeTab === 'manual' && (
-              <ManualView onBack={() => setActiveTab('translate')} />
-            )}
-            {activeTab === 'terms' && (
-              <TermsView onBack={() => setActiveTab('translate')} />
-            )}
-            {activeTab === 'privacy' && (
-              <PrivacyView onBack={() => setActiveTab('translate')} />
-            )}
-          </div>
-        )}
       </footer>
     </div>
   );

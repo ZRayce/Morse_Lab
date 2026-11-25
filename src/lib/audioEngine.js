@@ -12,6 +12,8 @@ export class MorseAudioEngine {
     this.blockedListeners = new Set();
     this.isTransmitting = false;
     this.isAudioBlocked = false;
+    this.pendingTimers = new Set();
+    this.pendingSleepResolvers = new Set();
   }
 
   subscribe(fn) {
@@ -72,6 +74,15 @@ export class MorseAudioEngine {
       clearTimeout(this.watchdogTimer);
       this.watchdogTimer = null;
     }
+    for (const timerId of this.pendingTimers) {
+      clearTimeout(timerId);
+    }
+    this.pendingTimers.clear();
+    for (const resolveSleep of this.pendingSleepResolvers) {
+        resolveSleep();
+    }
+    this.pendingSleepResolvers.clear();
+    
     if (this.activeOsc && this.ctx) {
       try {
         const now = this.ctx.currentTime;
@@ -163,10 +174,21 @@ export class MorseAudioEngine {
     const words = raw.split(/\s+/);
 
     const sleep = (ms) =>
-      new Promise((resolve) => {
-        setTimeout(resolve, ms);
-      });
-
+        new Promise((resolve) => {
+            let settled = false;
+            const done = () => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(id);
+                this.pendingTimers.delete(id);
+                this.pendingSleepResolvers.delete(done);
+                resolve();
+            };
+            const id = setTimeout(done, ms);
+            this.pendingTimers.add(id);
+            this.pendingSleepResolvers.add(done);
+        });
+        
     for (let wIdx = 0; wIdx < words.length; wIdx += 1) {
       if (this.playbackId !== currentRun) return false;
       const word = words[wIdx];

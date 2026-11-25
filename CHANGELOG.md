@@ -2,6 +2,16 @@
 
 All notable updates to **MorseLab** are documented here.
 
+## [1.0.2] - 2026-11-26
+
+### Added
+- **MorseAudioEngine Lifecycle & Playback Tests:** Expanded `src/__tests__/morselab.test.js` from 17 to 21 tests covering unavailable `AudioContext` fallback, suspended context resumption, `stopAll()` timer cancellation, and the 5-second manual-tone watchdog.
+- **Accessibility & Edge Security Metadata:** Added a keyboard skip-to-main-content link in `src/App.jsx`, Open Graph/Twitter preview image tags and a `<noscript>` fallback in `index.html`, and `Strict-Transport-Security` (HSTS) plus explicit `no-cache` HTML headers in `vercel.json`.
+
+### Changed
+- **Landmark Semantics, Tab Audio Cleanup & Logbook Guardrails:** Rendered Operator Manual, Terms of Service, and Privacy Policy views inside `<main id="main-content">` instead of `<footer>`, stopped active audio and scrolled to top on tab navigation, memoized 36-character mastery matrix totals, and added a 5-second auto-reset timeout for permanent logbook purge confirmation.
+- **Audio Cancellation & Hook Cleanliness:** Added `pendingTimers` and `pendingSleepResolvers` tracking in `MorseAudioEngine` (`src/lib/audioEngine.js`) so active sequences resolve and clear timers immediately on `stopAll()`, and refactored `StationBootScreen` (`src/components/StationChrome.jsx`) to eliminate `react-hooks/set-state-in-effect` lint errors.
+
 ## [1.0.1] - 2026-11-26
 
 ### Added
